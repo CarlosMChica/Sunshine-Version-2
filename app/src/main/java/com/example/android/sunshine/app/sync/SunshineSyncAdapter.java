@@ -79,8 +79,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
   @Override public void onPerformSync(Account account, Bundle extras, String authority,
       ContentProviderClient provider, SyncResult syncResult) {
     Log.d(LOG_TAG, "Starting sync");
-    List<Weather> weatherList = remoteGateway.refresh();
-    localGateway.update(weatherList);
+    localGateway.update(remoteGateway.refresh());
     notifyWeather();
   }
 
