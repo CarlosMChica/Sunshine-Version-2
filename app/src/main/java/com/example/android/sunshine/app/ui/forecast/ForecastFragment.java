@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.app;
+package com.example.android.sunshine.app.ui.forecast;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,40 +30,44 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
+import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.data.LocalGateway;
 import com.example.android.sunshine.app.data.RemoteGateway;
 import com.example.android.sunshine.app.data.Weather;
+import com.example.android.sunshine.app.data.WeatherContract;
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
+import com.example.android.sunshine.app.ui.forecast.ForecastPresenter.ForecastView;
 import java.util.List;
 
 /**
  * Encapsulates fetching the forecast and displaying it as a {@link ListView} layout.
  */
-public class ForecastFragment extends Fragment {
+public class ForecastFragment extends Fragment implements ForecastView {
 
   @Bind(R.id.recycler) RecyclerView recyclerView;
 
   private EasyRecyclerAdapter adapter;
-
-  /**
-   * A callback interface that all activities containing this fragment must
-   * implement. This mechanism allows activities to be notified of item
-   * selections.
-   */
-  public interface Callback {
-    /**
-     * DetailFragmentCallback for when an item has been selected.
-     */
-    void onItemSelected(Uri dateUri);
-  }
+  private ForecastPresenter presenter;
+  private ForecastFragmentCallback callback;
 
   public ForecastFragment() {
+    LocalGateway localGateway = new LocalGateway(getContext());
+    RemoteGateway remoteGateway = new RemoteGateway(getContext());
+
+    presenter = new ForecastPresenter(localGateway, remoteGateway, this);
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     // Add this line in order for this fragment to handle menu events.
     setHasOptionsMenu(true);
+  }
+
+  @Override public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    if (getActivity() instanceof ForecastFragmentCallback) {
+      callback = (ForecastFragmentCallback) getActivity();
+    }
   }
 
   @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -112,15 +115,25 @@ public class ForecastFragment extends Fragment {
     //mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
   }
 
+  @Override public void updateForecast(final List<Weather> localData) {
+    getActivity().runOnUiThread(new Runnable() {
+      @Override public void run() {
+        adapter.addAll(localData);
+      }
+    });
+  }
+
   private void init() {
     initUi();
-    initData();
+    presenter.onUiReady();
   }
 
   private void initUi() {
     adapter = new EasyRecyclerAdapter(getContext(), Weather.class, ForecastViewHolder.class);
     adapter.setOnClickListener(new EasyViewHolder.OnItemClickListener() {
-      @Override public void onItemClick(int position, View view) {
+      @Override public void onItemClick(int position, View viewWe) {
+        Weather weather = (Weather) adapter.get(position);
+        callback.onItemSelected(weather.getId());
         // CursorAdapter returns a cursor at the correct position for getItem(), or null
         // if it cannot seek to that position.
         //Cursor cursor = (Cursor) adapter.get(position);
@@ -130,35 +143,14 @@ public class ForecastFragment extends Fragment {
         //      WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting,
         //          cursor.getLong(COL_WEATHER_DATE)));
         //}
-        //mPosition = position;
       }
     });
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     recyclerView.setAdapter(adapter);
   }
 
-  private void initData() {
-    LocalGateway localGateway = new LocalGateway(getContext());
-    List<Weather> localData = localGateway.load();
-    if (!localData.isEmpty()) {
-      adapter.addAll(localData);
-    } else {
-      new Thread(new Runnable() {
-        @Override public void run() {
-          RemoteGateway remoteGateway = new RemoteGateway(getContext());
-          final List<Weather> remoteData = remoteGateway.refresh();
-          getActivity().runOnUiThread(new Runnable() {
-            @Override public void run() {
-              adapter.addAll(remoteData);
-            }
-          });
-        }
-      }).start();
-    }
-  }
-
   // since we read the location when we create the loader, all we need to do is restart things
-  void onLocationChanged() {
+  public void onLocationChanged() {
     updateWeather();
   }
 
@@ -200,5 +192,10 @@ public class ForecastFragment extends Fragment {
     //  outState.putInt(SELECTED_KEY, mPosition);
     //}
     //super.onSaveInstanceState(outState);
+  }
+
+  public interface ForecastFragmentCallback {
+
+    void onItemSelected(int weatherId);
   }
 }

@@ -13,19 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.sunshine.app;
+package com.example.android.sunshine.app.ui.forecast;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.example.android.sunshine.app.R;
+import com.example.android.sunshine.app.Utility;
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
+import com.example.android.sunshine.app.ui.detail.DetailActivity;
+import com.example.android.sunshine.app.ui.detail.DetailFragment;
+import com.example.android.sunshine.app.ui.forecast.ForecastFragment;
+import com.example.android.sunshine.app.ui.settings.SettingsActivity;
 
-public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback {
+public class MainActivity extends AppCompatActivity
+    implements ForecastFragment.ForecastFragmentCallback {
 
-  private static final String DETAILFRAGMENT_TAG = "DFTAG";
+  private static final String DETAIL_FRAGMENT_TAG = "DFTAG";
 
   private boolean mTwoPane;
   private String mLocation;
@@ -45,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
       // fragment transaction.
       if (savedInstanceState == null) {
         getSupportFragmentManager().beginTransaction()
-            .replace(R.id.weather_detail_container, new DetailFragment(), DETAILFRAGMENT_TAG)
+            .replace(R.id.weather_detail_container, new DetailFragment(), DETAIL_FRAGMENT_TAG)
             .commit();
       }
     } else {
@@ -92,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         ff.onLocationChanged();
       }
       DetailFragment df =
-          (DetailFragment) getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
+          (DetailFragment) getSupportFragmentManager().findFragmentByTag(DETAIL_FRAGMENT_TAG);
       if (null != df) {
         df.onLocationChanged(location);
       }
@@ -100,23 +106,17 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
     }
   }
 
-  @Override public void onItemSelected(Uri contentUri) {
+  @Override public void onItemSelected(int weatherId) {
     if (mTwoPane) {
       // In two-pane mode, show the detail view in this activity by
       // adding or replacing the detail fragment using a
       // fragment transaction.
-      Bundle args = new Bundle();
-      args.putParcelable(DetailFragment.DETAIL_URI, contentUri);
-
-      DetailFragment fragment = new DetailFragment();
-      fragment.setArguments(args);
-
       getSupportFragmentManager().beginTransaction()
-          .replace(R.id.weather_detail_container, fragment, DETAILFRAGMENT_TAG)
+          .replace(R.id.weather_detail_container, DetailFragment.newInstance(weatherId),
+              DETAIL_FRAGMENT_TAG)
           .commit();
     } else {
-      Intent intent = new Intent(this, DetailActivity.class).setData(contentUri);
-      startActivity(intent);
+      DetailActivity.startActivity(this, weatherId);
     }
   }
 }

@@ -1,4 +1,4 @@
-package com.example.android.sunshine.app;
+package com.example.android.sunshine.app.ui.forecast;
 
 import android.content.Context;
 import android.view.ViewGroup;
@@ -7,6 +7,8 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
+import com.example.android.sunshine.app.R;
+import com.example.android.sunshine.app.Utility;
 import com.example.android.sunshine.app.data.Weather;
 
 public class ForecastViewHolder extends EasyViewHolder<Weather> {

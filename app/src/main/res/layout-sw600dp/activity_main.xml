@@ -5,7 +5,7 @@
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
-    tools:context="com.example.android.sunshine.app.MainActivity">
+    tools:context=".ui.forecast.MainActivity">
 
     <!--
     This layout is a two-pane layout for the Items master/detail flow.
@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/fragment_forecast"
-        android:name="com.example.android.sunshine.app.ForecastFragment"
+        android:name="com.example.android.sunshine.app.ui.forecast.ForecastFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
