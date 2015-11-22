@@ -150,11 +150,7 @@ public class ForecastFragment extends Fragment implements ForecastView {
 
   // since we read the location when we create the loader, all we need to do is restart things
   public void onLocationChanged() {
-    updateWeather();
-  }
-
-  private void updateWeather() {
-    SunshineSyncAdapter.syncImmediately(getActivity());
+    presenter.onLocationChanged();
   }
 
   private void openPreferredLocationInMap() {

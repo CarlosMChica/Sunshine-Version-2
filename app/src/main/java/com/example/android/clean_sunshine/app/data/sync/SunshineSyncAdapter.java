@@ -64,8 +64,12 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
   @Override public void onPerformSync(Account account, Bundle extras, String authority,
       ContentProviderClient provider, SyncResult syncResult) {
     Log.d(LOG_TAG, "Starting sync");
-    localGateway.update(remoteGateway.refresh());
+    updateData();
     notifyWeather();
+  }
+
+  private void updateData() {
+    localGateway.update(remoteGateway.refresh());
   }
 
   private void notifyWeather() {
@@ -148,81 +152,21 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
   }
 
   /**
-   * Helper method to handle insertion of a new location in the weather database.
-   *
-   * @param locationSetting The location string used to request updates from the server.
-   * @param cityName A human-readable city name, e.g "Mountain View"
-   * @param lat the latitude of the city
-   * @param lon the longitude of the city
-   * @return the row ID of the added location.
-   */
-  long addLocation(String locationSetting, String cityName, double lat, double lon) {
-    long locationId;
-
-    // First, check if the location with this city name exists in the db
-    Cursor locationCursor = getContext().getContentResolver()
-        .query(ForecastContract.LocationEntry.CONTENT_URI,
-            new String[] {ForecastContract.LocationEntry._ID},
-            ForecastContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
-            new String[] {locationSetting}, null);
-
-    if (locationCursor.moveToFirst()) {
-      int locationIdIndex = locationCursor.getColumnIndex(ForecastContract.LocationEntry._ID);
-      locationId = locationCursor.getLong(locationIdIndex);
-    } else {
-      // Now that the content provider is set up, inserting rows of data is pretty simple.
-      // First create a ContentValues object to hold the data you want to insert.
-      ContentValues locationValues = new ContentValues();
-
-      // Then add the data, along with the corresponding name of the data type,
-      // so the content provider knows what kind of value is being inserted.
-      locationValues.put(ForecastContract.LocationEntry.COLUMN_CITY_NAME, cityName);
-      locationValues.put(ForecastContract.LocationEntry.COLUMN_LOCATION_SETTING, locationSetting);
-      locationValues.put(ForecastContract.LocationEntry.COLUMN_COORD_LAT, lat);
-      locationValues.put(ForecastContract.LocationEntry.COLUMN_COORD_LONG, lon);
-
-      // Finally, insert location data into the database.
-      Uri insertedUri = getContext().getContentResolver()
-          .insert(ForecastContract.LocationEntry.CONTENT_URI, locationValues);
-
-      // The resulting URI contains the ID for the row.  Extract the locationId from the Uri.
-      locationId = ContentUris.parseId(insertedUri);
-    }
-
-    locationCursor.close();
-    // Wait, that worked?  Yes!
-    return locationId;
-  }
-
-  /**
    * Helper method to schedule the sync adapter periodic execution
    */
-  public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
+  public static void configurePeriodicSync(Context context) {
     Account account = getSyncAccount(context);
     String authority = context.getString(R.string.application_id);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
       // we can enable inexact timers in our periodic sync
       SyncRequest request = new SyncRequest.Builder().
-          syncPeriodic(syncInterval, flexTime).
+          syncPeriodic(SYNC_INTERVAL, SYNC_FLEXTIME).
           setSyncAdapter(account, authority).
           setExtras(new Bundle()).build();
       ContentResolver.requestSync(request);
     } else {
-      ContentResolver.addPeriodicSync(account, authority, new Bundle(), syncInterval);
+      ContentResolver.addPeriodicSync(account, authority, new Bundle(), SYNC_INTERVAL);
     }
-  }
-
-  /**
-   * Helper method to have the sync adapter sync immediately
-   *
-   * @param context The context used to access the account service
-   */
-  public static void syncImmediately(Context context) {
-    Bundle bundle = new Bundle();
-    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-    bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-    ContentResolver.requestSync(getSyncAccount(context),
-        context.getString(R.string.application_id), bundle);
   }
 
   /**
@@ -268,18 +212,13 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         /*
          * Since we've created an account
          */
-    SunshineSyncAdapter.configurePeriodicSync(context, SYNC_INTERVAL, SYNC_FLEXTIME);
+    SunshineSyncAdapter.configurePeriodicSync(context);
 
         /*
          * Without calling setSyncAutomatically, our periodic sync will not be enabled.
          */
     ContentResolver.setSyncAutomatically(newAccount, context.getString(R.string.application_id),
         true);
-
-        /*
-         * Finally, let's do a sync to get things started
-         */
-    syncImmediately(context);
   }
 
   public static void initializeSyncAdapter(Context context) {

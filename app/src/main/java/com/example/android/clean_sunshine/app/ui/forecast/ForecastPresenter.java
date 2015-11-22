@@ -39,6 +39,10 @@ public class ForecastPresenter {
     }).start();
   }
 
+  public void onLocationChanged() {
+    updateForecastFromRemote();
+  }
+
   public interface ForecastView {
 
     void updateForecast(List<Forecast> localData);
