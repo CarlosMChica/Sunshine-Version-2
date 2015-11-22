@@ -53,7 +53,7 @@ public class Forecast {
     return location;
   }
 
-  private Forecast(Builder builder) {
+  Forecast(Builder builder) {
     this.id = builder.id;
     this.description = builder.description;
     this.dateTime = builder.dateTime;

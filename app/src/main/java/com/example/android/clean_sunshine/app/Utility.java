@@ -21,9 +21,34 @@ import android.preference.PreferenceManager;
 import android.text.format.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Utility {
+
+  public static boolean isToday(long date) {
+    return isToday(new Date(date));
+  }
+
+  public static boolean isToday(Date date) {
+    if (date == null) {
+      throw new IllegalArgumentException("The dates must not be null");
+    }
+    Calendar cal1 = Calendar.getInstance();
+    cal1.setTime(date);
+    Calendar cal2 = Calendar.getInstance();
+    return isSameDay(cal1, cal2);
+  }
+
+  public static boolean isSameDay(Calendar cal1, Calendar cal2) {
+    if (cal1 == null || cal2 == null) {
+      throw new IllegalArgumentException("The dates must not be null");
+    }
+    return (cal1.get(Calendar.ERA) == cal2.get(Calendar.ERA) &&
+        cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+        cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR));
+  }
+
   public static String getPreferredLocation(Context context) {
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
     return prefs.getString(context.getString(R.string.pref_location_key),

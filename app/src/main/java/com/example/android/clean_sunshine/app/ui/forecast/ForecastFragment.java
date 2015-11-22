@@ -31,9 +31,9 @@ import butterknife.ButterKnife;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.example.android.clean_sunshine.app.R;
+import com.example.android.clean_sunshine.app.data.domain.Forecast;
 import com.example.android.clean_sunshine.app.data.local.LocalGateway;
 import com.example.android.clean_sunshine.app.data.remote.RemoteGateway;
-import com.example.android.clean_sunshine.app.data.domain.Forecast;
 import com.example.android.clean_sunshine.app.data.sync.SunshineSyncAdapter;
 import com.example.android.clean_sunshine.app.ui.forecast.ForecastPresenter.ForecastView;
 import java.util.List;
@@ -128,7 +128,7 @@ public class ForecastFragment extends Fragment implements ForecastView {
   }
 
   private void initUi() {
-    adapter = new EasyRecyclerAdapter(getContext(), Forecast.class, ForecastViewHolder.class);
+    adapter = new ForecastAdapter(getContext());
     adapter.setOnClickListener(new EasyViewHolder.OnItemClickListener() {
       @Override public void onItemClick(int position, View viewWe) {
         Forecast forecast = (Forecast) adapter.get(position);

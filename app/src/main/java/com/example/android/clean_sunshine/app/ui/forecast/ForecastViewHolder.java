@@ -1,6 +1,7 @@
 package com.example.android.clean_sunshine.app.ui.forecast;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,7 +23,11 @@ public class ForecastViewHolder extends EasyViewHolder<Forecast> {
   private final Context context;
 
   public ForecastViewHolder(Context context, ViewGroup parent) {
-    super(context, parent, R.layout.list_item_forecast);
+    this(context, parent, R.layout.list_item_forecast);
+  }
+
+  public ForecastViewHolder(Context context, ViewGroup parent, int layoutRes) {
+    super(context, parent, layoutRes);
     this.context = context;
     ButterKnife.bind(this, itemView);
   }
@@ -41,6 +46,10 @@ public class ForecastViewHolder extends EasyViewHolder<Forecast> {
 
   private void bindIcon(Forecast item) {
     iconImageView.setContentDescription(item.getDescription());
-    iconImageView.setImageResource(Utility.getIconResourceForWeatherCondition(item.getId()));
+    iconImageView.setImageResource(getIconImageRes(item));
+  }
+
+  protected @DrawableRes int getIconImageRes(Forecast item) {
+    return Utility.getIconResourceForWeatherCondition(item.getId());
   }
 }

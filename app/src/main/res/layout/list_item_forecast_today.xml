@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/list_item_date_textview"
+            android:id="@+id/date_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceLarge"
@@ -25,7 +25,7 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/list_item_high_textview"
+            android:id="@+id/high_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="72sp"
@@ -33,7 +33,7 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/list_item_low_textview"
+            android:id="@+id/low_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -50,13 +50,13 @@
         android:gravity="center_horizontal|bottom">
 
         <ImageView
-            android:id="@+id/list_item_icon"
+            android:id="@+id/icon_imageview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"/>
 
         <TextView
-            android:id="@+id/list_item_forecast_textview"
+            android:id="@+id/forecast_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
