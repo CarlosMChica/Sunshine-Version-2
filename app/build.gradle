@@ -1,31 +1,42 @@
 apply plugin: 'com.android.application'
 
-android {
-    compileSdkVersion 23
-    buildToolsVersion "21.1.2"
+repositories {
+  maven {
+    url "https://oss.sonatype.org/content/repositories/snapshots/"
+  }
+}
 
-    defaultConfig {
-        applicationId "com.example.android.sunshine.app"
-        minSdkVersion 16
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+android {
+  compileSdkVersion 23
+  buildToolsVersion "21.1.2"
+
+  defaultConfig {
+    applicationId "com.example.android.clean_sunshine.app"
+    minSdkVersion 16
+    targetSdkVersion 23
+    versionCode 1
+    versionName "1.0"
+
+    buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', MyOpenWeatherMapApiKey
+    buildConfigField 'String', "API_URL", '"http://api.openweathermap.org/data/2.5/"'
+    resValue "string", "application_id", "${applicationId}"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    buildTypes.each {
-        it.buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', MyOpenWeatherMapApiKey
-    }
+  }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.github.cmc00022:easyrecycleradapters:1.0.9'
-    compile 'com.jakewharton:butterknife:7.0.1'
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile 'com.android.support:appcompat-v7:23.1.1'
+  compile 'com.android.support:recyclerview-v7:23.1.1'
+  compile 'com.github.cmc00022:easyrecycleradapters:1.0.9'
+  compile 'com.jakewharton:butterknife:7.0.1'
+  compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
+  compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
+  compile 'com.squareup.okhttp:logging-interceptor:2.6.0-SNAPSHOT'
+
 }
