@@ -3,20 +3,24 @@ package com.example.android.clean_sunshine.app.data.remote;
 import com.example.android.clean_sunshine.app.data.domain.Forecast;
 import com.example.android.clean_sunshine.app.data.domain.Location;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ApiForecastMapper {
 
   public List<Forecast> mapFromApi(ApiForecast apiForecast, String locationQuery) {
-    List<Forecast> list = new ArrayList<>(apiForecast.getItems().size());
-    for (ApiForecastItem item : apiForecast.getItems()) {
-      list.add(mapForecastItem(item, apiForecast.getCity(), locationQuery));
+    List<ApiForecastItem> items = apiForecast.getItems();
+    List<Forecast> list = new ArrayList<>(items.size());
+    for (int i = 0; i < items.size(); i++) {
+      list.add(mapForecastItem(i, items.get(0), apiForecast.getCity(), locationQuery));
     }
     return list;
   }
 
-  private Forecast mapForecastItem(ApiForecastItem item, ApiCity city, String locationQuery) {
+  private Forecast mapForecastItem(int itemIndex, ApiForecastItem item, ApiCity city,
+      String locationQuery) {
     return new Forecast.Builder().id(mapId(item))
+        .dateTime(mapDate(itemIndex))
         .description(mapDescription(item))
         .high(mapMaxTemperature(item.getTemperature()))
         .low(mapMinTemperature(item.getTemperature()))
@@ -24,6 +28,12 @@ public class ApiForecastMapper {
         .pressure(item.getPressure())
         .location(mapLocation(city, locationQuery))
         .build();
+  }
+
+  private long mapDate(int itemIndex) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.add(Calendar.DAY_OF_YEAR, itemIndex);
+    return calendar.getTimeInMillis();
   }
 
   private Location mapLocation(ApiCity apiCity, String locationQuery) {
