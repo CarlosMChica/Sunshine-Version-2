@@ -22,6 +22,9 @@ public class LocalGateway {
     contentResolver = context.getContentResolver();
   }
 
+  public Forecast loadToday() {
+    return load().get(0);
+  }
   public List<Forecast> load() {
     List<Forecast> forecastList = new ArrayList<>();
     Cursor cursor = contentResolver.query(CONTENT_URI, null, null, null, null);
