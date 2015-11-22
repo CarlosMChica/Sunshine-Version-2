@@ -18,6 +18,7 @@ public class ForecastViewHolder extends EasyViewHolder<Forecast> {
   @Bind(R.id.forecast_textview) TextView forecastTextView;
   @Bind(R.id.high_textview) TextView highTextView;
   @Bind(R.id.low_textview) TextView lowTextView;
+  @Bind(R.id.icon_imageview) ImageView icon;
 
   private final Context context;
 
