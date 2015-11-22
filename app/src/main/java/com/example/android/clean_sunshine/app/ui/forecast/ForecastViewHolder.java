@@ -18,7 +18,6 @@ public class ForecastViewHolder extends EasyViewHolder<Forecast> {
   @Bind(R.id.forecast_textview) TextView forecastTextView;
   @Bind(R.id.high_textview) TextView highTextView;
   @Bind(R.id.low_textview) TextView lowTextView;
-  @Bind(R.id.icon_imageview) ImageView icon;
 
   private final Context context;
 
@@ -31,8 +30,17 @@ public class ForecastViewHolder extends EasyViewHolder<Forecast> {
   @Override public void bindTo(Forecast item) {
     dateTextView.setText(Utility.getFriendlyDayString(context, item.getDateTime()));
     forecastTextView.setText(item.getDescription());
-    iconImageView.setContentDescription(item.getDescription());
+    bindTemperatures(item);
+    bindIcon(item);
+  }
+
+  private void bindTemperatures(Forecast item) {
     highTextView.setText(Utility.formatTemperature(context, item.getHigh()));
     lowTextView.setText(Utility.formatTemperature(context, item.getLow()));
+  }
+
+  private void bindIcon(Forecast item) {
+    iconImageView.setContentDescription(item.getDescription());
+    iconImageView.setImageResource(Utility.getIconResourceForWeatherCondition(item.getId()));
   }
 }
