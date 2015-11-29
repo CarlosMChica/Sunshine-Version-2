@@ -1,14 +1,8 @@
 apply plugin: 'com.android.application'
 
-repositories {
-  maven {
-    url "https://oss.sonatype.org/content/repositories/snapshots/"
-  }
-}
-
 android {
   compileSdkVersion 23
-  buildToolsVersion "21.1.2"
+  buildToolsVersion '23.0.2'
 
   defaultConfig {
     applicationId "com.example.android.clean_sunshine.app"
@@ -37,6 +31,6 @@ dependencies {
   compile 'com.jakewharton:butterknife:7.0.1'
   compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
   compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-  compile 'com.squareup.okhttp:logging-interceptor:2.6.0-SNAPSHOT'
-
+  compile 'com.squareup.okhttp:okhttp:2.6.0'
+  compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
 }
