@@ -1,8 +1,11 @@
-package com.example.android.clean_sunshine.app.data.remote;
+package com.example.android.clean_sunshine.app.data.network;
 
 import android.content.Context;
 import com.example.android.clean_sunshine.app.Utility;
-import com.example.android.clean_sunshine.app.data.domain.Forecast;
+import com.example.android.clean_sunshine.app.domain.model.Forecast;
+import com.example.android.clean_sunshine.app.domain.model.NetworkGateway;
+import com.example.android.clean_sunshine.app.data.network.model.ApiForecast;
+import com.example.android.clean_sunshine.app.data.network.model.ApiForecastMapper;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import java.io.IOException;
@@ -13,29 +16,20 @@ import retrofit.Retrofit;
 
 import static com.example.android.clean_sunshine.app.BuildConfig.API_URL;
 import static com.example.android.clean_sunshine.app.BuildConfig.OPEN_WEATHER_MAP_API_KEY;
+import static com.squareup.okhttp.logging.HttpLoggingInterceptor.Level.BODY;
 
-public class RemoteGateway {
+public class NetworkGatewayImp implements NetworkGateway {
 
   private final Context context;
   private final OpenWeatherApiClient apiClient;
   private final ApiForecastMapper apiForecastMapper = new ApiForecastMapper();
 
-  public RemoteGateway(Context context) {
+  public NetworkGatewayImp(Context context, OpenWeatherApiClient apiClient) {
     this.context = context;
-
-    OkHttpClient client = new OkHttpClient();
-    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-    interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-    client.interceptors().add(interceptor);
-
-    Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(API_URL)
-        .client(client)
-        .build();
-    apiClient = retrofit.create(OpenWeatherApiClient.class);
+    this.apiClient = apiClient;
   }
 
-  public List<Forecast> refresh() {
+  @Override public List<Forecast> refresh() {
     String locationQuery = Utility.getPreferredLocation(context);
     try {
       ApiForecast apiForecast =

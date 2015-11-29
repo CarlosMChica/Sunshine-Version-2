@@ -26,15 +26,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.example.android.clean_sunshine.app.R;
-import com.example.android.clean_sunshine.app.data.domain.Forecast;
-import com.example.android.clean_sunshine.app.data.local.LocalGateway;
-import com.example.android.clean_sunshine.app.data.remote.RemoteGateway;
-import com.example.android.clean_sunshine.app.ui.forecast.ForecastPresenter.ForecastView;
+import com.example.android.clean_sunshine.app.dependencies.PresenterFactory;
+import com.example.android.clean_sunshine.app.domain.model.Forecast;
+import com.example.android.clean_sunshine.app.presenter.forecast.ForecastPresenter;
+import com.example.android.clean_sunshine.app.presenter.forecast.ForecastView;
 import com.example.android.clean_sunshine.app.ui.forecast.adapter.ForecastAdapter;
 import java.util.List;
 
@@ -54,10 +55,7 @@ public class ForecastFragment extends Fragment implements ForecastView {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    LocalGateway localGateway = new LocalGateway(getContext());
-    RemoteGateway remoteGateway = new RemoteGateway(getContext());
-
-    presenter = new ForecastPresenter(localGateway, remoteGateway, this);
+    presenter = PresenterFactory.make(getActivity(), this);
     // Add this line in order for this fragment to handle menu events.
     setHasOptionsMenu(true);
   }
@@ -97,6 +95,11 @@ public class ForecastFragment extends Fragment implements ForecastView {
     return rootView;
   }
 
+  @Override public void onPause() {
+    presenter.detachView();
+    super.onPause();
+  }
+
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     init();
@@ -120,6 +123,16 @@ public class ForecastFragment extends Fragment implements ForecastView {
         adapter.addAll(localData);
       }
     });
+  }
+
+  @Override public void showRefreshForecastError() {
+    Toast.makeText(getActivity(), getString(R.string.refresh_forecast_error), Toast.LENGTH_SHORT)
+        .show();
+  }
+
+  @Override public void showLoadForecastError() {
+    Toast.makeText(getActivity(), getString(R.string.load_forecast_error), Toast.LENGTH_SHORT)
+        .show();
   }
 
   private void init() {

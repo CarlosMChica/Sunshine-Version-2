@@ -92,5 +92,7 @@
 
     <!-- Strings related to Notification preference -->
     <string name="pref_last_notification">last_notification</string>
+    <string name="refresh_forecast_error">Error refreshing forecast</string>
+    <string name="load_forecast_error">Error loading forecast</string>
 
 </resources>

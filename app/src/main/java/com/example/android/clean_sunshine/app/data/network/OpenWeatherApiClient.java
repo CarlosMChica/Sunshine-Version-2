@@ -1,5 +1,6 @@
-package com.example.android.clean_sunshine.app.data.remote;
+package com.example.android.clean_sunshine.app.data.network;
 
+import com.example.android.clean_sunshine.app.data.network.model.ApiForecast;
 import retrofit.Call;
 import retrofit.http.GET;
 import retrofit.http.Query;

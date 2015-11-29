@@ -1,7 +1,7 @@
-package com.example.android.clean_sunshine.app.data.remote;
+package com.example.android.clean_sunshine.app.data.network.model;
 
-import com.example.android.clean_sunshine.app.data.domain.Forecast;
-import com.example.android.clean_sunshine.app.data.domain.Location;
+import com.example.android.clean_sunshine.app.domain.model.Forecast;
+import com.example.android.clean_sunshine.app.domain.model.Location;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;

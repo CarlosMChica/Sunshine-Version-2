@@ -4,28 +4,30 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import com.example.android.clean_sunshine.app.data.domain.Forecast;
+import com.example.android.clean_sunshine.app.domain.model.Forecast;
+import com.example.android.clean_sunshine.app.domain.model.LocalGateway;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.android.clean_sunshine.app.data.local.ForecastContract.*;
+import static com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry;
 import static com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry.CONTENT_URI;
 
-public class LocalGateway {
+public class LocalGatewayImp implements LocalGateway {
 
   private DbForecastMapper mapper = new DbForecastMapper();
   private ContentResolver contentResolver;
 
-  public LocalGateway(Context context) {
+  public LocalGatewayImp(Context context) {
     contentResolver = context.getContentResolver();
   }
 
-  public Forecast loadToday() {
+  @Override public Forecast loadToday() {
     return load().get(0);
   }
-  public List<Forecast> load() {
+
+  @Override public List<Forecast> load() {
     List<Forecast> forecastList = new ArrayList<>();
     Cursor cursor = contentResolver.query(CONTENT_URI, null, null, null, null);
     if (cursor != null) {
@@ -36,7 +38,7 @@ public class LocalGateway {
     return forecastList;
   }
 
-  public void update(List<Forecast> forecastList) {
+  @Override public void update(List<Forecast> forecastList) {
     List<ContentValues> contentValues = mapper.mapToDb(forecastList);
     ContentValues[] values = contentValues.toArray(new ContentValues[contentValues.size()]);
     contentResolver.bulkInsert(CONTENT_URI, values);
@@ -47,8 +49,7 @@ public class LocalGateway {
     Calendar calendar = Calendar.getInstance();
     calendar.add(Calendar.DAY_OF_YEAR, -1);
     Date yesterday = calendar.getTime();
-    contentResolver.delete(WeatherEntry.CONTENT_URI,
-        WeatherEntry.COLUMN_DATE + " <= ?",
+    contentResolver.delete(WeatherEntry.CONTENT_URI, WeatherEntry.COLUMN_DATE + " <= ?",
         new String[] {String.valueOf(yesterday.getTime())});
   }
 }

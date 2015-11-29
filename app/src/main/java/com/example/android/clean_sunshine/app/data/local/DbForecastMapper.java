@@ -2,7 +2,7 @@ package com.example.android.clean_sunshine.app.data.local;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import com.example.android.clean_sunshine.app.data.domain.Forecast;
+import com.example.android.clean_sunshine.app.domain.model.Forecast;
 import java.util.ArrayList;
 import java.util.List;
 

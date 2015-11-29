@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.Utility;
-import com.example.android.clean_sunshine.app.data.domain.Forecast;
+import com.example.android.clean_sunshine.app.domain.model.Forecast;
 
 public class ForecastTodayViewHolder extends ForecastViewHolder {
 

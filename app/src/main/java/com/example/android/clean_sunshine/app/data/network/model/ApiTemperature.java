@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.app.data.remote;
+package com.example.android.clean_sunshine.app.data.network.model;
 
 public class ApiTemperature {
 

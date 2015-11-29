@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.example.android.clean_sunshine.app.Utility;
-import com.example.android.clean_sunshine.app.data.domain.Forecast;
+import com.example.android.clean_sunshine.app.domain.model.Forecast;
 
 /**
  * {@link ForecastAdapter} exposes a list of weather forecasts

@@ -24,42 +24,35 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.Utility;
-import com.example.android.clean_sunshine.app.data.domain.Forecast;
-import com.example.android.clean_sunshine.app.data.local.ForecastContract;
-import com.example.android.clean_sunshine.app.data.local.LocalGateway;
-import com.example.android.clean_sunshine.app.data.remote.RemoteGateway;
+import com.example.android.clean_sunshine.app.domain.interactor.LoadTodayForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.interactor.RefreshWeekForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.model.Forecast;
 import com.example.android.clean_sunshine.app.ui.forecast.MainActivity;
+import java.util.List;
 
-public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
+import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeLoadTodayForecastInteractor;
+import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeRefreshForecastInteractor;
+
+public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter
+    implements LoadTodayForecastInteractor.LoadTodayForecastInteractorOutput,
+    RefreshWeekForecastInteractor.RefreshForecastInteractorOutput {
+
   public final String LOG_TAG = SunshineSyncAdapter.class.getSimpleName();
-  // Interval at which to sync with the weather, in seconds.
-  // 60 seconds (1 minute) * 180 = 3 hours
-  public static final int SYNC_INTERVAL = 60 * 180;
-  public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+
+  private static final int SYNC_INTERVAL = 60 * 180;
+  private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
   private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
   private static final int WEATHER_NOTIFICATION_ID = 3004;
 
-  private static final String[] NOTIFY_WEATHER_PROJECTION = new String[] {
-      ForecastContract.WeatherEntry.COLUMN_WEATHER_ID,
-      ForecastContract.WeatherEntry.COLUMN_MAX_TEMP, ForecastContract.WeatherEntry.COLUMN_MIN_TEMP,
-      ForecastContract.WeatherEntry.COLUMN_SHORT_DESC
-  };
-
-  // these indices must match the projection
-  private static final int INDEX_WEATHER_ID = 0;
-  private static final int INDEX_MAX_TEMP = 1;
-  private static final int INDEX_MIN_TEMP = 2;
-  private static final int INDEX_SHORT_DESC = 3;
-
-  private LocalGateway localGateway;
-  private RemoteGateway remoteGateway;
+  private LoadTodayForecastInteractor todayForecastInteractor;
+  private RefreshWeekForecastInteractor refreshWeekForecastInteractor;
   private SharedPreferences prefs;
 
   public SunshineSyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
-    remoteGateway = new RemoteGateway(context);
-    localGateway = new LocalGateway(context);
     prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    refreshWeekForecastInteractor = makeRefreshForecastInteractor(context);
+    todayForecastInteractor = makeLoadTodayForecastInteractor(context);
   }
 
   @Override public void onPerformSync(Account account, Bundle extras, String authority,
@@ -69,23 +62,40 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     notifyWeather();
   }
 
+  @Override public void onForecastRefreshed(List<Forecast> forecastList) {
+    notifyWeather();
+  }
+
+  @Override public void onRefreshForecastError() {
+    //DO NOTHING
+  }
+
+  @Override public void onTodayForecastLoaded(Forecast todayForecast) {
+    showTodayForecastNotification(todayForecast);
+  }
+
   private void updateData() {
-    localGateway.update(remoteGateway.refresh());
+    refreshWeekForecastInteractor.setOutput(this);
+    refreshWeekForecastInteractor.run();
   }
 
   private void notifyWeather() {
     if (hasToShowNotification()) {
-      Forecast todayForecast = localGateway.loadToday();
-      int iconId = Utility.getIconResourceForWeatherCondition(todayForecast.getId());
-      Resources resources = getContext().getResources();
-      Bitmap largeIcon = BitmapFactory.decodeResource(resources,
-          Utility.getArtResourceForWeatherCondition(todayForecast.getId()));
-      String title = getContext().getString(R.string.app_name);
-      Notification notification =
-          buildNotification(todayForecast, iconId, resources, largeIcon, title);
-      showNotification(notification);
-      refreshLastSync();
+      todayForecastInteractor.setOutput(this);
+      todayForecastInteractor.run();
     }
+  }
+
+  private void showTodayForecastNotification(Forecast todayForecast) {
+    int iconId = Utility.getIconResourceForWeatherCondition(todayForecast.getId());
+    Resources resources = getContext().getResources();
+    Bitmap largeIcon = BitmapFactory.decodeResource(resources,
+        Utility.getArtResourceForWeatherCondition(todayForecast.getId()));
+    String title = getContext().getString(R.string.app_name);
+    Notification notification =
+        buildNotification(todayForecast, iconId, resources, largeIcon, title);
+    showNotification(notification);
+    refreshLastSync();
   }
 
   private boolean isShowNotificationSettingEnabled() {
@@ -97,8 +107,11 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
   private boolean hasToShowNotification() {
     long lastSync =
         prefs.getLong(getContext().getString(R.string.pref_enable_notifications_key), 0);
-    boolean wasLastTimeSyncBeforeToday = System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS;
-    return wasLastTimeSyncBeforeToday && isShowNotificationSettingEnabled();
+    return wasLastTimeSyncBeforeToday(lastSync) && isShowNotificationSettingEnabled();
+  }
+
+  private boolean wasLastTimeSyncBeforeToday(long lastSync) {
+    return System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS;
   }
 
   private void refreshLastSync() {

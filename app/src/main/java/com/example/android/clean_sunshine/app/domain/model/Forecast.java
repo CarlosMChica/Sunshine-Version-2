@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.app.data.domain;
+package com.example.android.clean_sunshine.app.domain.model;
 
 public class Forecast {
 
