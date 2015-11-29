@@ -34,8 +34,8 @@ import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.data.domain.Forecast;
 import com.example.android.clean_sunshine.app.data.local.LocalGateway;
 import com.example.android.clean_sunshine.app.data.remote.RemoteGateway;
-import com.example.android.clean_sunshine.app.data.sync.SunshineSyncAdapter;
 import com.example.android.clean_sunshine.app.ui.forecast.ForecastPresenter.ForecastView;
+import com.example.android.clean_sunshine.app.ui.forecast.adapter.ForecastAdapter;
 import java.util.List;
 
 /**

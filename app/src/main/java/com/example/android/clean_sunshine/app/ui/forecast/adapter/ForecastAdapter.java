@@ -1,8 +1,7 @@
-package com.example.android.clean_sunshine.app.ui.forecast;
+package com.example.android.clean_sunshine.app.ui.forecast.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;

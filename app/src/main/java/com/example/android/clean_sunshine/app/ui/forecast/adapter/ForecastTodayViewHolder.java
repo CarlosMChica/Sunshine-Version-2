@@ -1,12 +1,7 @@
-package com.example.android.clean_sunshine.app.ui.forecast;
+package com.example.android.clean_sunshine.app.ui.forecast.adapter;
 
 import android.content.Context;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.Utility;
 import com.example.android.clean_sunshine.app.data.domain.Forecast;

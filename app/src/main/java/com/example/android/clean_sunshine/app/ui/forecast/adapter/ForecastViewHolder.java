@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.app.ui.forecast;
+package com.example.android.clean_sunshine.app.ui.forecast.adapter;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
