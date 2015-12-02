@@ -2,7 +2,7 @@ package com.example.android.clean_sunshine.app.dependencies;
 
 import android.content.Context;
 import android.os.Handler;
-import com.example.android.clean_sunshine.app.domain.interactor.LoadWeekForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.interactor.LoadTwoWeeksForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.interactor.RefreshWeekForecastInteractor;
 import com.example.android.clean_sunshine.app.presenter.InteractorExecutor;
 import com.example.android.clean_sunshine.app.presenter.InteractorExecutorImp;
@@ -36,7 +36,7 @@ public class PresenterFactory {
     return new MainThreadSpec();
   }
 
-  private static LoadWeekForecastInteractor getLoadForecastInteractor(Context context) {
+  private static LoadTwoWeeksForecastInteractor getLoadForecastInteractor(Context context) {
     return makeLoadForecastInteractor(context);
   }
 

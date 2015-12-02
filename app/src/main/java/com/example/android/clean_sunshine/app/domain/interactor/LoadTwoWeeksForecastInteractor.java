@@ -5,13 +5,13 @@ import com.example.android.clean_sunshine.app.domain.model.LocalGateway;
 import com.example.android.clean_sunshine.app.domain.model.NetworkGateway;
 import java.util.List;
 
-public class LoadWeekForecastInteractor implements Interactor {
+public class LoadTwoWeeksForecastInteractor implements Interactor {
 
   private LocalGateway localGateway;
   private NetworkGateway networkGateway;
   private LoadForecastInteractorOutput output;
 
-  public LoadWeekForecastInteractor(LocalGateway localGateway, NetworkGateway networkGateway) {
+  public LoadTwoWeeksForecastInteractor(LocalGateway localGateway, NetworkGateway networkGateway) {
     this.localGateway = localGateway;
     this.networkGateway = networkGateway;
   }

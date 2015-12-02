@@ -12,7 +12,7 @@ public class ApiForecastMapper {
     List<ApiForecastItem> items = apiForecast.getItems();
     List<Forecast> list = new ArrayList<>(items.size());
     for (int i = 0; i < items.size(); i++) {
-      list.add(mapForecastItem(i, items.get(0), apiForecast.getCity(), locationQuery));
+      list.add(mapForecastItem(i, items.get(i), apiForecast.getCity(), locationQuery));
     }
     return list;
   }

@@ -1,24 +1,24 @@
 package com.example.android.clean_sunshine.app.presenter.forecast;
 
-import com.example.android.clean_sunshine.app.domain.interactor.LoadWeekForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.interactor.LoadTwoWeeksForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.interactor.RefreshWeekForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
 import com.example.android.clean_sunshine.app.presenter.InteractorExecutor;
 import java.util.List;
 import me.panavtec.threaddecoratedview.views.ViewInjector;
 
-public class ForecastPresenter implements LoadWeekForecastInteractor.LoadForecastInteractorOutput,
+public class ForecastPresenter implements LoadTwoWeeksForecastInteractor.LoadForecastInteractorOutput,
     RefreshWeekForecastInteractor.RefreshForecastInteractorOutput {
 
   private ForecastView view;
-  private LoadWeekForecastInteractor loadWeekForecastInteractor;
+  private LoadTwoWeeksForecastInteractor loadTwoWeeksForecastInteractor;
   private RefreshWeekForecastInteractor refreshWeekForecastInteractor;
   private InteractorExecutor interactorExecutor;
 
-  public ForecastPresenter(ForecastView view, LoadWeekForecastInteractor loadWeekForecastInteractor,
+  public ForecastPresenter(ForecastView view, LoadTwoWeeksForecastInteractor loadTwoWeeksForecastInteractor,
       RefreshWeekForecastInteractor refreshWeekForecastInteractor, InteractorExecutor interactorExecutor) {
     this.view = view;
-    this.loadWeekForecastInteractor = loadWeekForecastInteractor;
+    this.loadTwoWeeksForecastInteractor = loadTwoWeeksForecastInteractor;
     this.refreshWeekForecastInteractor = refreshWeekForecastInteractor;
     this.interactorExecutor = interactorExecutor;
   }
@@ -48,8 +48,8 @@ public class ForecastPresenter implements LoadWeekForecastInteractor.LoadForecas
   }
 
   private void loadForecast() {
-    loadWeekForecastInteractor.setOutput(this);
-    interactorExecutor.execute(loadWeekForecastInteractor);
+    loadTwoWeeksForecastInteractor.setOutput(this);
+    interactorExecutor.execute(loadTwoWeeksForecastInteractor);
   }
 
   private void refreshForecast() {

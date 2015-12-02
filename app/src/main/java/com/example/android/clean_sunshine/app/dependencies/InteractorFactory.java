@@ -2,7 +2,7 @@ package com.example.android.clean_sunshine.app.dependencies;
 
 import android.content.Context;
 import com.example.android.clean_sunshine.app.domain.interactor.LoadTodayForecastInteractor;
-import com.example.android.clean_sunshine.app.domain.interactor.LoadWeekForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.interactor.LoadTwoWeeksForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.interactor.RefreshWeekForecastInteractor;
 
 import static com.example.android.clean_sunshine.app.dependencies.GatewaysFactory.makeLocalGateway;
@@ -10,8 +10,8 @@ import static com.example.android.clean_sunshine.app.dependencies.GatewaysFactor
 
 public class InteractorFactory {
 
-  public static LoadWeekForecastInteractor makeLoadForecastInteractor(Context context) {
-    return new LoadWeekForecastInteractor(makeLocalGateway(context), makeNetworkGateway(context));
+  public static LoadTwoWeeksForecastInteractor makeLoadForecastInteractor(Context context) {
+    return new LoadTwoWeeksForecastInteractor(makeLocalGateway(context), makeNetworkGateway(context));
   }
 
   public static RefreshWeekForecastInteractor makeRefreshForecastInteractor(Context context) {
