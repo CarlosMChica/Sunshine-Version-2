@@ -98,16 +98,16 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter
     refreshLastSync();
   }
 
+  private boolean hasToShowNotification() {
+    long lastSync =
+        prefs.getLong(getContext().getString(R.string.pref_last_notification), 0);
+    return wasLastTimeSyncBeforeToday(lastSync) && isShowNotificationSettingEnabled();
+  }
+
   private boolean isShowNotificationSettingEnabled() {
     String displayNotificationsKey = getContext().getString(R.string.pref_enable_notifications_key);
     return prefs.getBoolean(displayNotificationsKey,
         Boolean.parseBoolean(getContext().getString(R.string.pref_enable_notifications_default)));
-  }
-
-  private boolean hasToShowNotification() {
-    long lastSync =
-        prefs.getLong(getContext().getString(R.string.pref_enable_notifications_key), 0);
-    return wasLastTimeSyncBeforeToday(lastSync) && isShowNotificationSettingEnabled();
   }
 
   private boolean wasLastTimeSyncBeforeToday(long lastSync) {
