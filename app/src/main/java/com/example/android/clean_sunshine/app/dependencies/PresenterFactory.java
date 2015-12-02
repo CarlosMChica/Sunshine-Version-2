@@ -33,12 +33,7 @@ public class PresenterFactory {
   }
 
   private static ThreadSpec getMainThreadSpec() {
-    final Handler handler = new Handler();
-    return new ThreadSpec() {
-      @Override public void execute(Runnable action) {
-        handler.post(action);
-      }
-    };
+    return new MainThreadSpec();
   }
 
   private static LoadWeekForecastInteractor getLoadForecastInteractor(Context context) {
@@ -47,5 +42,13 @@ public class PresenterFactory {
 
   private static RefreshWeekForecastInteractor getRefreshForecastInteractor(Context context) {
     return makeRefreshForecastInteractor(context);
+  }
+
+  private static class MainThreadSpec implements ThreadSpec {
+    final Handler handler = new Handler();
+
+    @Override public void execute(Runnable action) {
+      handler.post(action);
+    }
   }
 }
