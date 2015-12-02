@@ -15,7 +15,6 @@ public class RefreshWeekForecastInteractor implements Interactor {
     this.networkGateway = networkGateway;
     this.localGateway = localGateway;
   }
-
   public void setOutput(RefreshForecastInteractorOutput output) {
     this.output = output;
   }

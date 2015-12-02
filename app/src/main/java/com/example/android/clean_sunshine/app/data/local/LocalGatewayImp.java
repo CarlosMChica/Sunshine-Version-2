@@ -11,8 +11,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry;
+import static com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry.COLUMN_DATE;
 import static com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry.CONTENT_URI;
+import static java.lang.String.valueOf;
+import static java.util.Calendar.DAY_OF_YEAR;
+import static java.util.Calendar.getInstance;
 
 public class LocalGatewayImp implements LocalGateway {
 
@@ -46,10 +49,10 @@ public class LocalGatewayImp implements LocalGateway {
   }
 
   private void purge() {
-    Calendar calendar = Calendar.getInstance();
-    calendar.add(Calendar.DAY_OF_YEAR, -1);
+    Calendar calendar = getInstance();
+    calendar.add(DAY_OF_YEAR, -1);
     Date yesterday = calendar.getTime();
-    contentResolver.delete(WeatherEntry.CONTENT_URI, WeatherEntry.COLUMN_DATE + " <= ?",
-        new String[] {String.valueOf(yesterday.getTime())});
+    contentResolver.delete(CONTENT_URI, COLUMN_DATE + " <= ?",
+        new String[] {valueOf(yesterday.getTime())});
   }
 }
