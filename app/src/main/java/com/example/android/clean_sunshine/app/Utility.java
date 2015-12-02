@@ -26,6 +26,8 @@ import java.util.Date;
 
 public class Utility {
 
+  private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
+
   public static boolean isToday(long date) {
     return isToday(new Date(date));
   }
@@ -60,6 +62,20 @@ public class Utility {
     return prefs.getString(context.getString(R.string.pref_units_key),
         context.getString(R.string.pref_units_metric))
         .equals(context.getString(R.string.pref_units_metric));
+  }
+
+  public static boolean isShowNotificationSettingEnabled(Context context) {
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    String displayNotificationsKey = context.getString(R.string.pref_enable_notifications_key);
+    boolean defaultValue =
+        context.getResources().getBoolean(R.bool.pref_enable_notifications_default);
+    return prefs.getBoolean(displayNotificationsKey, defaultValue);
+  }
+
+  public static boolean wasLastTimeSyncBeforeToday(Context context) {
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+    long lastSync = prefs.getLong(context.getString(R.string.pref_last_notification), 0);
+    return System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS;
   }
 
   public static String formatTemperature(Context context, double temperature) {

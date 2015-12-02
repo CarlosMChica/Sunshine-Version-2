@@ -1,0 +1,15 @@
+package com.example.android.clean_sunshine.app.dependencies;
+
+import android.content.Context;
+import com.example.android.clean_sunshine.app.data.sync.notification.NotificationBuilder;
+import com.example.android.clean_sunshine.app.data.sync.notification.SunshineNotificationManager;
+
+import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeLoadTodayForecastInteractor;
+
+public class SunshineNotificationManagerFactory {
+
+  public static SunshineNotificationManager make(Context context) {
+    return new SunshineNotificationManager(context, makeLoadTodayForecastInteractor(context),
+        new NotificationBuilder(context));
+  }
+}
