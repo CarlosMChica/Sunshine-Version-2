@@ -32,36 +32,22 @@ public class MainActivity extends AppCompatActivity
 
   private static final String DETAIL_FRAGMENT_TAG = "DFTAG";
 
-  private boolean mTwoPane;
+  private boolean twoPane;
   private String mLocation;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mLocation = Utility.getPreferredLocation(this);
-
     setContentView(R.layout.activity_main);
-    if (findViewById(R.id.weather_detail_container) != null) {
-      // The detail container view will be present only in the large-screen layouts
-      // (res/layout-sw600dp). If this view is present, then the activity should be
-      // in two-pane mode.
-      mTwoPane = true;
-      // In two-pane mode, show the detail view in this activity by
-      // adding or replacing the detail fragment using a
-      // fragment transaction.
+    twoPane = findViewById(R.id.weather_detail_container) != null;
+    if (twoPane) {
       if (savedInstanceState == null) {
         getSupportFragmentManager().beginTransaction()
             .replace(R.id.weather_detail_container, new DetailFragment(), DETAIL_FRAGMENT_TAG)
             .commit();
       }
-    } else {
-      mTwoPane = false;
-      getSupportActionBar().setElevation(0f);
     }
-
-    //ForecastFragment forecastFragment =  ((ForecastFragment)getSupportFragmentManager()
-    //        .findFragmentById(R.id.fragment_forecast));
-    //forecastFragment.setUseTodayLayout(!mTwoPane);
-
+    //TODO: Move sync adapter init to App
     SunshineSyncAdapter.initializeSyncAdapter(this);
   }
 
@@ -106,10 +92,7 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override public void onItemSelected(int weatherId) {
-    if (mTwoPane) {
-      // In two-pane mode, show the detail view in this activity by
-      // adding or replacing the detail fragment using a
-      // fragment transaction.
+    if (twoPane) {
       getSupportFragmentManager().beginTransaction()
           .replace(R.id.weather_detail_container, DetailFragment.newInstance(weatherId),
               DETAIL_FRAGMENT_TAG)

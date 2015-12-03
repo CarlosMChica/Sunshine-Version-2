@@ -26,11 +26,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
-import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.dependencies.PresenterFactory;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
@@ -39,12 +39,17 @@ import com.example.android.clean_sunshine.app.presenter.forecast.ForecastView;
 import com.example.android.clean_sunshine.app.ui.forecast.adapter.ForecastAdapter;
 import java.util.List;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder.OnItemClickListener;
+
 /**
  * Encapsulates fetching the forecast and displaying it as a {@link ListView} layout.
  */
 public class ForecastFragment extends Fragment implements ForecastView {
 
   @Bind(R.id.recycler) RecyclerView recyclerView;
+  @Bind(R.id.progressBar) ProgressBar progressBar;
 
   private EasyRecyclerAdapter adapter;
   private ForecastPresenter presenter;
@@ -72,19 +77,15 @@ public class ForecastFragment extends Fragment implements ForecastView {
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
-    //        if (id == R.id.action_refresh) {
-    //            updateWeather();
-    //            return true;
-    //        }
-    if (id == R.id.action_map) {
-      openPreferredLocationInMap();
-      return true;
+    switch (id) {
+      case R.id.action_refresh:
+        presenter.onRefresh();
+        return true;
+      case R.id.action_map:
+        openPreferredLocationInMap();
+        return true;
     }
-
     return super.onOptionsItemSelected(item);
   }
 
@@ -103,36 +104,26 @@ public class ForecastFragment extends Fragment implements ForecastView {
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     init();
-    // If there's instance state, mine it for useful information.
-    // The end-goal here is that the user never knows that turning their device sideways
-    // does crazy lifecycle related things.  It should feel like some stuff stretched out,
-    // or magically appeared to take advantage of room, but data or place in the app was never
-    // actually *lost*.
-    //if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-    //  // The listview probably hasn't even been populated yet.  Actually perform the
-    //  // swapout in onLoadFinished.
-    //  mPosition = savedInstanceState.getInt(SELECTED_KEY);
-    //}
-
-    //mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
   }
 
   @Override public void updateForecast(final List<Forecast> localData) {
-    getActivity().runOnUiThread(new Runnable() {
-      @Override public void run() {
-        adapter.addAll(localData);
-      }
-    });
+    adapter.addAll(localData);
   }
 
   @Override public void showRefreshForecastError() {
-    Toast.makeText(getActivity(), getString(R.string.refresh_forecast_error), Toast.LENGTH_SHORT)
-        .show();
+    showError(R.string.refresh_forecast_error);
   }
 
   @Override public void showLoadForecastError() {
-    Toast.makeText(getActivity(), getString(R.string.load_forecast_error), Toast.LENGTH_SHORT)
-        .show();
+    showError(R.string.load_forecast_error);
+  }
+
+  @Override public void showLoading() {
+    progressBar.setVisibility(VISIBLE);
+  }
+
+  @Override public void hideLoading() {
+    progressBar.setVisibility(GONE);
   }
 
   private void init() {
@@ -142,19 +133,10 @@ public class ForecastFragment extends Fragment implements ForecastView {
 
   private void initUi() {
     adapter = new ForecastAdapter(getContext());
-    adapter.setOnClickListener(new EasyViewHolder.OnItemClickListener() {
+    adapter.setOnClickListener(new OnItemClickListener() {
       @Override public void onItemClick(int position, View viewWe) {
         Forecast forecast = (Forecast) adapter.get(position);
         callback.onItemSelected(forecast.getId());
-        // CursorAdapter returns a cursor at the correct position for getItem(), or null
-        // if it cannot seek to that position.
-        //Cursor cursor = (Cursor) adapter.get(position);
-        //if (cursor != null) {
-        //  String locationSetting = Utility.getPreferredLocation(getActivity());
-        //  ((Callback) getActivity()).onItemSelected(
-        //      WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting,
-        //          cursor.getLong(COL_WEATHER_DATE)));
-        //}
       }
     });
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -192,6 +174,10 @@ public class ForecastFragment extends Fragment implements ForecastView {
     //}
   }
 
+  private void showError(int refresh_forecast_error) {
+    Toast.makeText(getActivity(), getString(refresh_forecast_error), Toast.LENGTH_SHORT).show();
+  }
+
   @Override public void onSaveInstanceState(Bundle outState) {
     // When tablets rotate, the currently selected list item needs to be saved.
     // When no item is selected, mPosition will be set to Listview.INVALID_POSITION,
@@ -200,6 +186,11 @@ public class ForecastFragment extends Fragment implements ForecastView {
     //  outState.putInt(SELECTED_KEY, mPosition);
     //}
     //super.onSaveInstanceState(outState);
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.unbind(this);
   }
 
   public interface ForecastFragmentCallback {

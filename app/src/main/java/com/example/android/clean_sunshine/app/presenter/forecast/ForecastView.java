@@ -11,4 +11,8 @@ import me.panavtec.threaddecoratedview.views.qualifiers.ThreadDecoratedView;
   void showRefreshForecastError();
 
   void showLoadForecastError();
+
+  void showLoading();
+
+  void hideLoading();
 }

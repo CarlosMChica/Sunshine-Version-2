@@ -27,12 +27,12 @@ public class ForecastPresenter implements LoadTwoWeeksForecastInteractor.LoadFor
     updateViewItems(forecastList);
   }
 
-  @Override public void onForecastRefreshed(List<Forecast> forecastList) {
-    updateViewItems(forecastList);
-  }
-
   @Override public void onLoadForecastError() {
     view.showLoadForecastError();
+  }
+
+  @Override public void onForecastRefreshed(List<Forecast> forecastList) {
+    updateViewItems(forecastList);
   }
 
   @Override public void onRefreshForecastError() {
@@ -47,21 +47,28 @@ public class ForecastPresenter implements LoadTwoWeeksForecastInteractor.LoadFor
     refreshForecast();
   }
 
+  public void detachView() {
+    this.view = ViewInjector.nullObjectPatternView(view);
+  }
+
+  public void onRefresh() {
+    refreshForecast();
+  }
+
   private void loadForecast() {
+    view.showLoading();
     loadTwoWeeksForecastInteractor.setOutput(this);
     interactorExecutor.execute(loadTwoWeeksForecastInteractor);
   }
 
   private void refreshForecast() {
+    view.showLoading();
     refreshWeekForecastInteractor.setOutput(this);
     interactorExecutor.execute(refreshWeekForecastInteractor);
   }
 
   private void updateViewItems(List<Forecast> forecastList) {
+    view.hideLoading();
     view.updateForecast(forecastList);
-  }
-
-  public void detachView() {
-    this.view = ViewInjector.nullObjectPatternView(view);
   }
 }
