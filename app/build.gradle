@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion '23.0.2'
+  compileSdkVersion parent.ext.androidCompileSdkVersion
+  buildToolsVersion parent.ext.androidBuildToolsVersion
 
   defaultConfig {
-    applicationId "com.example.android.clean_sunshine.app"
-    minSdkVersion 16
-    targetSdkVersion 23
-    versionCode 1
-    versionName "1.0"
+    applicationId parent.ext.androidApplicationId
+    minSdkVersion parent.ext.androidMinSdkVersion
+    targetSdkVersion parent.ext.androidTargetSdkVersion
+    versionCode parent.ext.androidVersionCode
+    versionName parent.ext.androidVersionName
 
     buildConfigField 'String', 'OPEN_WEATHER_MAP_API_KEY', MyOpenWeatherMapApiKey
     buildConfigField 'String', "API_URL", '"http://api.openweathermap.org/data/2.5/"'
@@ -26,15 +26,15 @@ android {
 
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile 'com.android.support:appcompat-v7:23.1.1'
-  compile 'com.android.support:recyclerview-v7:23.1.1'
-  compile 'com.github.cmc00022:easyrecycleradapters:1.0.9'
-  compile 'com.jakewharton:butterknife:7.0.1'
-  compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
-  compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-  compile 'com.squareup.okhttp:okhttp:2.6.0'
-  compile 'com.squareup.okhttp:logging-interceptor:2.6.0'
-  compile 'me.panavtec:threaddecoratedview-common:1.5.1'
-  compile 'javax.annotation:jsr250-api:1.0'
-  apt 'me.panavtec:threaddecoratedview-compiler:1.5.1'
+  compile rootProject.ext.dependencies.androidSupportv7
+  compile rootProject.ext.dependencies.recyclerView
+  compile rootProject.ext.dependencies.recyclerAdapters
+  compile rootProject.ext.dependencies.butterknife
+  compile rootProject.ext.dependencies.retrofit
+  compile rootProject.ext.dependencies.gsonConverter
+  compile rootProject.ext.dependencies.okHttp
+  compile rootProject.ext.dependencies.loggingInterceptor
+  compile rootProject.ext.dependencies.threaddecoratedview
+  compile rootProject.ext.dependencies.javax
+  apt rootProject.ext.dependencies.threaddecoratedviewcompiler
 }
