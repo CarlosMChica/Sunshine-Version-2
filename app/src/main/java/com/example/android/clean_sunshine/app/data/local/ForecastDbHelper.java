@@ -27,7 +27,7 @@ import com.example.android.clean_sunshine.app.data.local.ForecastContract.Weathe
 public class ForecastDbHelper extends SQLiteOpenHelper {
 
   // If you change the database schema, you must increment the database version.
-  private static final int DATABASE_VERSION = 2;
+  private static final int DATABASE_VERSION = 3;
 
   static final String DATABASE_NAME = "weather.db";
 
@@ -43,8 +43,8 @@ public class ForecastDbHelper extends SQLiteOpenHelper {
         LocationEntry.COLUMN_LOCATION_SETTING + " TEXT UNIQUE NOT NULL, " +
         LocationEntry.COLUMN_CITY_NAME + " TEXT NOT NULL, " +
         LocationEntry.COLUMN_COORD_LAT + " REAL NOT NULL, " +
-        LocationEntry.COLUMN_COORD_LONG + " REAL NOT NULL " +
-        " );";
+        LocationEntry.COLUMN_COORD_LONG + " REAL NOT NULL, " +
+        " UNIQUE (" + LocationEntry.COLUMN_CITY_NAME + ") ON CONFLICT REPLACE);";
 
     final String SQL_CREATE_WEATHER_TABLE = "CREATE TABLE " + WeatherEntry.TABLE_NAME + " (" +
         // Why AutoIncrement here, and not above?
