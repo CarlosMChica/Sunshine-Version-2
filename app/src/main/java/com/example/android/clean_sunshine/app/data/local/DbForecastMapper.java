@@ -7,7 +7,10 @@ import com.example.android.clean_sunshine.app.domain.model.Location;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.android.clean_sunshine.app.data.local.ForecastContract.LocationEntry;
+import static com.example.android.clean_sunshine.app.data.local.ForecastContract.LocationEntry.COLUMN_CITY_NAME;
+import static com.example.android.clean_sunshine.app.data.local.ForecastContract.LocationEntry.COLUMN_COORD_LAT;
+import static com.example.android.clean_sunshine.app.data.local.ForecastContract.LocationEntry.COLUMN_COORD_LONG;
+import static com.example.android.clean_sunshine.app.data.local.ForecastContract.LocationEntry.COLUMN_LOCATION_SETTING;
 import static com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry.COLUMN_DATE;
 import static com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry.COLUMN_DEGREES;
 import static com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry.COLUMN_HUMIDITY;
@@ -31,10 +34,10 @@ public class DbForecastMapper {
 
   public ContentValues mapLocationToDb(Location location) {
     ContentValues locationValues = new ContentValues();
-    locationValues.put(LocationEntry.COLUMN_CITY_NAME, location.getCityName());
-    locationValues.put(LocationEntry.COLUMN_LOCATION_SETTING, location.getLocationSetting());
-    locationValues.put(LocationEntry.COLUMN_COORD_LAT, location.getLat());
-    locationValues.put(LocationEntry.COLUMN_COORD_LONG, location.getLon());
+    locationValues.put(COLUMN_CITY_NAME, location.getCityName());
+    locationValues.put(COLUMN_LOCATION_SETTING, location.getLocationSetting());
+    locationValues.put(COLUMN_COORD_LAT, location.getLat());
+    locationValues.put(COLUMN_COORD_LONG, location.getLon());
     return locationValues;
   }
 
@@ -70,6 +73,19 @@ public class DbForecastMapper {
         .pressure(pressure)
         .high(high)
         .low(low)
+        .location(mapLocationFromDb(cursor))
+        .build();
+  }
+
+  private Location mapLocationFromDb(Cursor cursor) {
+    double lat = cursor.getDouble(cursor.getColumnIndex(COLUMN_COORD_LAT));
+    double lon = cursor.getDouble(cursor.getColumnIndex(COLUMN_COORD_LONG));
+    String cityName = cursor.getString(cursor.getColumnIndex(COLUMN_CITY_NAME));
+    String locationSetting = cursor.getString(cursor.getColumnIndex(COLUMN_LOCATION_SETTING));
+    return new Location.Builder().cityName(cityName)
+        .lat(lat)
+        .lon(lon)
+        .locationSetting(locationSetting)
         .build();
   }
 }

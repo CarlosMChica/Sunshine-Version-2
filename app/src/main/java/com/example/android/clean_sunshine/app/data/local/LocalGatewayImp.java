@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import com.example.android.clean_sunshine.app.Utility;
 import com.example.android.clean_sunshine.app.data.local.ForecastContract.LocationEntry;
 import com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
@@ -22,10 +23,12 @@ import static java.util.Calendar.getInstance;
 
 public class LocalGatewayImp implements LocalGateway {
 
-  private DbForecastMapper mapper = new DbForecastMapper();
-  private ContentResolver contentResolver;
+  private final String preferredLocation;
+  private final DbForecastMapper mapper = new DbForecastMapper();
+  private final ContentResolver contentResolver;
 
   public LocalGatewayImp(Context context) {
+    preferredLocation = Utility.getPreferredLocation(context);
     contentResolver = context.getContentResolver();
   }
 
@@ -35,7 +38,9 @@ public class LocalGatewayImp implements LocalGateway {
 
   @Override public List<Forecast> load() {
     List<Forecast> forecastList = new ArrayList<>();
-    Cursor cursor = contentResolver.query(WeatherEntry.CONTENT_URI, null, null, null, null);
+    Cursor cursor =
+        contentResolver.query(WeatherEntry.buildWeatherLocation(preferredLocation), null, null,
+            null, null);
     if (cursor != null) {
       while (cursor.moveToNext()) {
         forecastList.add(mapper.mapFromDb(cursor));
