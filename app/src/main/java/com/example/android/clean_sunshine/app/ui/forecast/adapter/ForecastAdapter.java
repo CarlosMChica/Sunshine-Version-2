@@ -1,17 +1,12 @@
 package com.example.android.clean_sunshine.app.ui.forecast.adapter;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.view.ViewGroup;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyViewHolder;
 import com.example.android.clean_sunshine.app.Utility;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
 
-/**
- * {@link ForecastAdapter} exposes a list of weather forecasts
- * from a {@link Cursor} to a {@link android.widget.ListView}.
- */
 public class ForecastAdapter extends EasyRecyclerAdapter {
 
   public static final int TODAY_VIEW_TYPE = 1;
@@ -22,11 +17,9 @@ public class ForecastAdapter extends EasyRecyclerAdapter {
   }
 
   @Override public EasyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    if (viewType == TODAY_VIEW_TYPE) {
-      return new ForecastTodayViewHolder(parent.getContext(), parent);
-    } else {
-      return new ForecastViewHolder(parent.getContext(), parent);
-    }
+    EasyViewHolder viewHolder = instantiateViewHolder(parent, viewType);
+    bindListeners(viewHolder);
+    return viewHolder;
   }
 
   @Override public int getItemViewType(int position) {
@@ -35,4 +28,11 @@ public class ForecastAdapter extends EasyRecyclerAdapter {
     return isToday ? TODAY_VIEW_TYPE : NOT_TODAY_VIEW_TYPE;
   }
 
+  private EasyViewHolder instantiateViewHolder(ViewGroup parent, int viewType) {
+    if (viewType == TODAY_VIEW_TYPE) {
+      return new ForecastTodayViewHolder(parent.getContext(), parent);
+    } else {
+      return new ForecastViewHolder(parent.getContext(), parent);
+    }
+  }
 }
