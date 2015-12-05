@@ -1,12 +1,16 @@
 package com.example.android.clean_sunshine.app.data.local;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
+import com.example.android.clean_sunshine.app.data.local.ForecastContract.LocationEntry;
 import com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
 import com.example.android.clean_sunshine.app.domain.model.LocalGateway;
+import com.example.android.clean_sunshine.app.domain.model.Location;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,18 +40,29 @@ public class LocalGatewayImp implements LocalGateway {
       while (cursor.moveToNext()) {
         forecastList.add(mapper.mapFromDb(cursor));
       }
+      cursor.close();
     }
     return forecastList;
   }
 
   @Override public void update(List<Forecast> forecastList) {
-    List<ContentValues> contentValues = mapper.mapToDb(forecastList);
-    ContentValues[] values = contentValues.toArray(new ContentValues[contentValues.size()]);
-    contentResolver.bulkInsert(WeatherEntry.CONTENT_URI, values);
-    purge();
+    if (!forecastList.isEmpty()) {
+      long locationId = updateLocation(forecastList.get(0).getLocation());
+      updateForecasts(forecastList, locationId);
+      purge();
+    }
   }
 
-  private void location(){
+  private void updateForecasts(List<Forecast> forecastList, long locationId) {
+    List<ContentValues> contentValues = mapper.mapToDb(forecastList, locationId);
+    ContentValues[] values = contentValues.toArray(new ContentValues[contentValues.size()]);
+    contentResolver.bulkInsert(WeatherEntry.CONTENT_URI, values);
+  }
+
+  private long updateLocation(Location location) {
+    ContentValues contentValues = mapper.mapLocationToDb(location);
+    Uri insertedUri = contentResolver.insert(LocationEntry.CONTENT_URI, contentValues);
+    return ContentUris.parseId(insertedUri);
   }
 
   private void purge() {

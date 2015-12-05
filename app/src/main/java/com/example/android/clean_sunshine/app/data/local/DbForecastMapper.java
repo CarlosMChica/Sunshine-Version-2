@@ -3,9 +3,11 @@ package com.example.android.clean_sunshine.app.data.local;
 import android.content.ContentValues;
 import android.database.Cursor;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
+import com.example.android.clean_sunshine.app.domain.model.Location;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.android.clean_sunshine.app.data.local.ForecastContract.LocationEntry;
 import static com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry.COLUMN_DATE;
 import static com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry.COLUMN_DEGREES;
 import static com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry.COLUMN_HUMIDITY;
@@ -19,19 +21,26 @@ import static com.example.android.clean_sunshine.app.data.local.ForecastContract
 
 public class DbForecastMapper {
 
-  public List<ContentValues> mapToDb(List<Forecast> forecastList) {
+  public List<ContentValues> mapToDb(List<Forecast> forecastList, long locationKey) {
     List<ContentValues> contentValues = new ArrayList<>(forecastList.size());
     for (Forecast forecast : forecastList) {
-      contentValues.add(mapItemToDb(forecast));
+      contentValues.add(mapForecastItemToDb(forecast, locationKey));
     }
     return contentValues;
   }
 
-  private ContentValues mapItemToDb(Forecast forecast) {
-    ContentValues contentValues = new ContentValues();
+  public ContentValues mapLocationToDb(Location location) {
+    ContentValues locationValues = new ContentValues();
+    locationValues.put(LocationEntry.COLUMN_CITY_NAME, location.getCityName());
+    locationValues.put(LocationEntry.COLUMN_LOCATION_SETTING, location.getLocationSetting());
+    locationValues.put(LocationEntry.COLUMN_COORD_LAT, location.getLat());
+    locationValues.put(LocationEntry.COLUMN_COORD_LONG, location.getLon());
+    return locationValues;
+  }
 
-    //TODO deal with location
-    contentValues.put(COLUMN_LOC_KEY, 0);
+  private ContentValues mapForecastItemToDb(Forecast forecast, long locationKey) {
+    ContentValues contentValues = new ContentValues();
+    contentValues.put(COLUMN_LOC_KEY, locationKey);
     contentValues.put(COLUMN_DATE, forecast.getDateTime());
     contentValues.put(COLUMN_HUMIDITY, forecast.getHumidity());
     contentValues.put(COLUMN_PRESSURE, forecast.getPressure());
