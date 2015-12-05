@@ -7,6 +7,22 @@ public class Location {
   private double lat;
   private double lon;
 
+  public String getLocationSetting() {
+    return locationSetting;
+  }
+
+  public String getCityName() {
+    return cityName;
+  }
+
+  public double getLat() {
+    return lat;
+  }
+
+  public double getLon() {
+    return lon;
+  }
+
   private Location(Builder builder) {
     this.locationSetting = builder.locationSetting;
     this.cityName = builder.cityName;

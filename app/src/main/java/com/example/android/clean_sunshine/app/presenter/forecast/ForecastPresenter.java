@@ -3,6 +3,7 @@ package com.example.android.clean_sunshine.app.presenter.forecast;
 import com.example.android.clean_sunshine.app.domain.interactor.LoadTwoWeeksForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.interactor.RefreshWeekForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
+import com.example.android.clean_sunshine.app.domain.model.Location;
 import com.example.android.clean_sunshine.app.presenter.InteractorExecutor;
 import java.util.List;
 import me.panavtec.threaddecoratedview.views.ViewInjector;
@@ -14,6 +15,7 @@ public class ForecastPresenter implements LoadTwoWeeksForecastInteractor.LoadFor
   private LoadTwoWeeksForecastInteractor loadTwoWeeksForecastInteractor;
   private RefreshWeekForecastInteractor refreshWeekForecastInteractor;
   private InteractorExecutor interactorExecutor;
+  private List<Forecast> forecastList;
 
   public ForecastPresenter(ForecastView view, LoadTwoWeeksForecastInteractor loadTwoWeeksForecastInteractor,
       RefreshWeekForecastInteractor refreshWeekForecastInteractor, InteractorExecutor interactorExecutor) {
@@ -24,6 +26,7 @@ public class ForecastPresenter implements LoadTwoWeeksForecastInteractor.LoadFor
   }
 
   @Override public void onForecastLoaded(List<Forecast> forecastList) {
+    this.forecastList = forecastList;
     updateViewItems(forecastList);
   }
 
@@ -32,6 +35,7 @@ public class ForecastPresenter implements LoadTwoWeeksForecastInteractor.LoadFor
   }
 
   @Override public void onForecastRefreshed(List<Forecast> forecastList) {
+    this.forecastList = forecastList;
     updateViewItems(forecastList);
   }
 
@@ -51,8 +55,15 @@ public class ForecastPresenter implements LoadTwoWeeksForecastInteractor.LoadFor
     this.view = ViewInjector.nullObjectPatternView(view);
   }
 
-  public void onRefresh() {
+  public void onRefreshClick() {
     refreshForecast();
+  }
+
+  public void onOpenMapOptionClick() {
+    if (!forecastList.isEmpty()) {
+      Location location = forecastList.get(0).getLocation();
+      view.goToMapScreen(location.getLat(), location.getLon());
+    }
   }
 
   private void loadForecast() {

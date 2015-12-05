@@ -27,6 +27,8 @@ public class ApiForecastMapper {
         .humidity(item.getHumidity())
         .pressure(item.getPressure())
         .location(mapLocation(city, locationQuery))
+        .windDirection(item.getWindDirection())
+        .windSpeed(item.getWindSpeed())
         .build();
   }
 

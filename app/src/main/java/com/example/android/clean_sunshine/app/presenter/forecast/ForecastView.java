@@ -15,4 +15,6 @@ import me.panavtec.threaddecoratedview.views.qualifiers.ThreadDecoratedView;
   void showLoading();
 
   void hideLoading();
+
+  void goToMapScreen(double lat, double lon);
 }
