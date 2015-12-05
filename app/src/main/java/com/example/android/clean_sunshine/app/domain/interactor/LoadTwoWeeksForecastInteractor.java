@@ -29,9 +29,11 @@ public class LoadTwoWeeksForecastInteractor implements Interactor {
   }
 
   private void loadForecast() {
-    final List<Forecast> forecastList = localGateway.load();
+    List<Forecast> forecastList = localGateway.load();
     if (forecastList.isEmpty()) {
-      output.onForecastLoaded(networkGateway.refresh());
+      forecastList = networkGateway.refresh();
+      output.onForecastLoaded(forecastList);
+      localGateway.update(forecastList);
     } else {
       output.onForecastLoaded(forecastList);
     }
