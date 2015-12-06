@@ -45,7 +45,7 @@ public class ForecastContract {
     public static final String PATH_WEATHER = "weather";
     public static final String PATH_LOCATION = "location";
 
-    // To make it easy to query for the exact date, we normalize all dates that go into
+    // To makeForecast it easy to query for the exact date, we normalize all dates that go into
     // the database to the start of the the Julian day at UTC.
     public static long normalizeDate(long startDate) {
         // normalize the start date to the beginning of the (UTC) day

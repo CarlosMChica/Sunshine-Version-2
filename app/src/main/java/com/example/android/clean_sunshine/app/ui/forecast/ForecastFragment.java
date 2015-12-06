@@ -63,7 +63,7 @@ public class ForecastFragment extends Fragment implements ForecastView {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    presenter = PresenterFactory.make(getActivity(), this);
+    presenter = PresenterFactory.makeForecast(getActivity(), this);
     setHasOptionsMenu(true);
   }
 

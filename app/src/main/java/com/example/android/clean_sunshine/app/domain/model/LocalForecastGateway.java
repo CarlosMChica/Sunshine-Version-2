@@ -8,4 +8,6 @@ public interface LocalForecastGateway {
   List<Forecast> load();
 
   void update(List<Forecast> forecastList);
+
+  Forecast loadById(int forecastId);
 }

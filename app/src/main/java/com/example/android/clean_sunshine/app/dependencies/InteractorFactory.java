@@ -1,7 +1,8 @@
 package com.example.android.clean_sunshine.app.dependencies;
 
 import android.content.Context;
-import com.example.android.clean_sunshine.app.data.gps.LocationProviderImp;
+import com.example.android.clean_sunshine.app.data.gps.AndroidLocationProvider;
+import com.example.android.clean_sunshine.app.domain.interactor.LoadForecastByIdInteractor;
 import com.example.android.clean_sunshine.app.domain.interactor.LoadForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.interactor.LoadTodayForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.interactor.RefreshForecastInteractor;
@@ -26,6 +27,10 @@ public class InteractorFactory {
   }
 
   public static LocationProvider makeLocationProvider(Context context) {
-    return new LocationProviderImp(context);
+    return new AndroidLocationProvider(context);
+  }
+
+  public static LoadForecastByIdInteractor makeLoadForecastByIdInteractor(Context context) {
+    return new LoadForecastByIdInteractor(makeLocalGateway(context));
   }
 }

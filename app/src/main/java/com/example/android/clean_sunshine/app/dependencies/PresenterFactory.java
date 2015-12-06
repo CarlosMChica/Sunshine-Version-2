@@ -4,11 +4,14 @@ import android.content.Context;
 import android.os.Handler;
 import com.example.android.clean_sunshine.app.presenter.InteractorExecutor;
 import com.example.android.clean_sunshine.app.presenter.InteractorExecutorImp;
+import com.example.android.clean_sunshine.app.presenter.detail.DetailPresenter;
+import com.example.android.clean_sunshine.app.presenter.detail.DetailView;
 import com.example.android.clean_sunshine.app.presenter.forecast.ForecastPresenter;
 import com.example.android.clean_sunshine.app.presenter.forecast.ForecastView;
 import java.util.concurrent.Executors;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
+import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeLoadForecastByIdInteractor;
 import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeLoadForecastInteractor;
 import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeRefreshForecastInteractor;
 
@@ -16,7 +19,7 @@ public class PresenterFactory {
 
   public static final int THREADS = 3;
 
-  public static ForecastPresenter make(Context context, ForecastView view) {
+  public static ForecastPresenter makeForecast(Context context, ForecastView view) {
     return new ForecastPresenter(view, makeMainThreadSpec(), makeLoadForecastInteractor(context),
         makeRefreshForecastInteractor(context), makeInteractorExecutor());
   }
@@ -27,6 +30,11 @@ public class PresenterFactory {
 
   private static ThreadSpec makeMainThreadSpec() {
     return new MainThreadSpec();
+  }
+
+  public static DetailPresenter makeDetail(Context context, DetailView view) {
+    return new DetailPresenter(view, makeMainThreadSpec(), makeLoadForecastByIdInteractor(context),
+        makeInteractorExecutor());
   }
 
   private static class MainThreadSpec implements ThreadSpec {

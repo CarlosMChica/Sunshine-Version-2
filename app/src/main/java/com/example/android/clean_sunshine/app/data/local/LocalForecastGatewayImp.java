@@ -58,6 +58,19 @@ public class LocalForecastGatewayImp implements LocalForecastGateway {
     }
   }
 
+  @Override public Forecast loadById(int forecastId) {
+    Forecast forecast = null;
+    Cursor cursor =
+        contentResolver.query(WeatherEntry.buildWeatherUri(forecastId), null, null, null, null);
+    if (cursor != null) {
+      if (cursor.moveToNext()) {
+        forecast = mapper.mapFromDb(cursor);
+      }
+      cursor.close();
+    }
+    return forecast;
+  }
+
   private void updateForecasts(List<Forecast> forecastList, long locationId) {
     List<ContentValues> contentValues = mapper.mapToDb(forecastList, locationId);
     ContentValues[] values = contentValues.toArray(new ContentValues[contentValues.size()]);

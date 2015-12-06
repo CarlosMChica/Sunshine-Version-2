@@ -79,11 +79,6 @@ public class MainActivity extends AppCompatActivity
       if (null != ff) {
         ff.onLocationChanged(location);
       }
-      DetailFragment df =
-          (DetailFragment) getSupportFragmentManager().findFragmentByTag(DETAIL_FRAGMENT_TAG);
-      if (null != df) {
-        df.onLocationChanged(location);
-      }
       mLocation = location;
     }
   }

@@ -18,14 +18,14 @@ import static com.google.android.gms.common.api.GoogleApiClient.OnConnectionFail
 import static com.google.android.gms.location.LocationServices.API;
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
-public class LocationProviderImp
+public class AndroidLocationProvider
     implements LocationProvider, ConnectionCallbacks, OnConnectionFailedListener {
 
   private final Context context;
   private GoogleApiClient googleApiClient;
   private LocationProviderListener listener;
 
-  public LocationProviderImp(Context context) {
+  public AndroidLocationProvider(Context context) {
     this.context = context;
   }
 
@@ -49,7 +49,12 @@ public class LocationProviderImp
   private void checkLocationPermission() {
     Dexter.checkPermission(new EmptyPermissionListener() {
       @Override public void onPermissionGranted(PermissionGrantedResponse response) {
-        initGoogleApiClient();
+        //TODO this should not be done but Dexter returns this method on the UI thread
+        new Thread(new Runnable() {
+          @Override public void run() {
+            initGoogleApiClient();
+          }
+        }).start();
       }
 
       @Override public void onPermissionDenied(PermissionDeniedResponse response) {
@@ -63,18 +68,12 @@ public class LocationProviderImp
         .addConnectionCallbacks(this)
         .addOnConnectionFailedListener(this)
         .build();
-    googleApiClient.connect();
+    googleApiClient.blockingConnect();
   }
 
   private void getLastLocation() {
-    //This should not be done
-    new Thread(new Runnable() {
-      @Override public void run() {
-        final android.location.Location lastLocation =
-            FusedLocationApi.getLastLocation(googleApiClient);
-        listener.onLocationRetrieved(convertToLocationModel(lastLocation));
-      }
-    }).start();
+    listener.onLocationRetrieved(
+        convertToLocationModel(FusedLocationApi.getLastLocation(googleApiClient)));
   }
 
   private Location convertToLocationModel(android.location.Location location) {

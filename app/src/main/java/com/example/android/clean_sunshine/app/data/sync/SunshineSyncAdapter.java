@@ -83,8 +83,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter
   }
 
   /**
-   * Helper method to get the fake account to be used with SyncAdapter, or make a new one
-   * if the fake account doesn't exist yet.  If we make a new account, we call the
+   * Helper method to get the fake account to be used with SyncAdapter, or makeForecast a new one
+   * if the fake account doesn't exist yet.  If we makeForecast a new account, we call the
    * onAccountCreated method so we can initialize things.
    *
    * @param context The context used to access the account service

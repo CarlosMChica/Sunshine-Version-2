@@ -18,7 +18,7 @@ public class SunshineAuthenticatorService extends Service {
     }
 
     /*
-     * When the system binds to this Service to make the RPC call
+     * When the system binds to this Service to makeForecast the RPC call
      * return the authenticator's IBinder.
      */
     @Override
