@@ -22,7 +22,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.Utility;
-import com.example.android.clean_sunshine.app.data.sync.SunshineSyncAdapter;
 import com.example.android.clean_sunshine.app.ui.detail.DetailActivity;
 import com.example.android.clean_sunshine.app.ui.detail.DetailFragment;
 import com.example.android.clean_sunshine.app.ui.settings.SettingsActivity;
@@ -47,8 +46,6 @@ public class MainActivity extends AppCompatActivity
             .commit();
       }
     }
-    //TODO: Move sync adapter init to App
-    SunshineSyncAdapter.initializeSyncAdapter(this);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,7 +77,7 @@ public class MainActivity extends AppCompatActivity
       ForecastFragment ff =
           (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
       if (null != ff) {
-        ff.onLocationChanged();
+        ff.onLocationChanged(location);
       }
       DetailFragment df =
           (DetailFragment) getSupportFragmentManager().findFragmentByTag(DETAIL_FRAGMENT_TAG);
