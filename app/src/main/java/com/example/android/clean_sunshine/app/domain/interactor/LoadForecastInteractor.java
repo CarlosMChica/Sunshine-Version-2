@@ -10,6 +10,7 @@ public class LoadForecastInteractor implements Interactor {
   private LocalForecastGateway localForecastGateway;
   private NetworkForecastGateway networkForecastGateway;
   private LoadForecastInteractorOutput output;
+  private String location;
 
   public LoadForecastInteractor(LocalForecastGateway localForecastGateway,
       NetworkForecastGateway networkForecastGateway) {
@@ -19,6 +20,10 @@ public class LoadForecastInteractor implements Interactor {
 
   public void setOutput(LoadForecastInteractorOutput output) {
     this.output = output;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
   }
 
   @Override public void run() {
@@ -33,7 +38,7 @@ public class LoadForecastInteractor implements Interactor {
   private void loadForecast() {
     List<Forecast> forecastList = localForecastGateway.load();
     if (forecastList.isEmpty()) {
-      forecastList = networkForecastGateway.refresh();
+      forecastList = networkForecastGateway.refresh(location);
       output.onForecastLoaded(forecastList);
       localForecastGateway.update(forecastList);
     } else {

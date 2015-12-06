@@ -35,6 +35,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.example.android.clean_sunshine.app.R;
+import com.example.android.clean_sunshine.app.Utility;
 import com.example.android.clean_sunshine.app.dependencies.PresenterFactory;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
 import com.example.android.clean_sunshine.app.presenter.forecast.CurrentLocationForecastPresenter;
@@ -137,7 +138,7 @@ public class ForecastFragment extends Fragment implements ForecastView {
 
   private void init() {
     initUi();
-    presenter.onUiReady();
+    initPresenter();
   }
 
   private void initUi() {
@@ -150,6 +151,11 @@ public class ForecastFragment extends Fragment implements ForecastView {
     });
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     recyclerView.setAdapter(adapter);
+  }
+
+  private void initPresenter() {
+    presenter.setManualLocation(Utility.getPreferredLocation(getActivity()));
+    presenter.onUiReady();
   }
 
   public void onLocationChanged(String location) {

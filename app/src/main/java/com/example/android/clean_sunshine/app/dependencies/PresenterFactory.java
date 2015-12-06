@@ -21,7 +21,7 @@ public class PresenterFactory {
 
   public static CurrentLocationForecastPresenter makeForecast(Context context, ForecastView view) {
     return new CurrentLocationForecastPresenter(view, makeMainThreadSpec(), makeLoadForecastInteractor(context),
-        makeRefreshForecastInteractor(context), refreshManualLocationForecastInteractor,
+        makeRefreshForecastInteractor(context), InteractorFactory.makeRefreshManualLocationForecastInteractor(context),
         makeInteractorExecutor());
   }
 

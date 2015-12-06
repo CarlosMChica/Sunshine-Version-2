@@ -6,6 +6,7 @@ import com.example.android.clean_sunshine.app.domain.interactor.LoadForecastById
 import com.example.android.clean_sunshine.app.domain.interactor.LoadForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.interactor.LoadTodayForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.interactor.RefreshCurrentLocationForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.interactor.RefreshManualLocationForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.model.LocationProvider;
 
 import static com.example.android.clean_sunshine.app.dependencies.GatewaysFactory.makeLocalGateway;
@@ -17,9 +18,10 @@ public class InteractorFactory {
     return new LoadForecastInteractor(makeLocalGateway(context), makeNetworkGateway(context));
   }
 
-  public static RefreshCurrentLocationForecastInteractor makeRefreshForecastInteractor(Context context) {
-    return new RefreshCurrentLocationForecastInteractor(makeLocationProvider(context), makeLocalGateway(context),
-        makeNetworkGateway(context));
+  public static RefreshCurrentLocationForecastInteractor makeRefreshForecastInteractor(
+      Context context) {
+    return new RefreshCurrentLocationForecastInteractor(makeLocationProvider(context),
+        makeLocalGateway(context), makeNetworkGateway(context));
   }
 
   public static LoadTodayForecastInteractor makeLoadTodayForecastInteractor(Context context) {
@@ -32,5 +34,11 @@ public class InteractorFactory {
 
   public static LoadForecastByIdInteractor makeLoadForecastByIdInteractor(Context context) {
     return new LoadForecastByIdInteractor(makeLocalGateway(context));
+  }
+
+  public static RefreshManualLocationForecastInteractor makeRefreshManualLocationForecastInteractor(
+      Context context) {
+    return new RefreshManualLocationForecastInteractor(makeLocalGateway(context),
+        makeNetworkGateway(context));
   }
 }

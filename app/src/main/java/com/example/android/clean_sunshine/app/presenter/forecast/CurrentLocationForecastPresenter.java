@@ -24,7 +24,8 @@ public class CurrentLocationForecastPresenter
   private final RefreshManualLocationForecastInteractor refreshManualLocationForecastInteractor;
   private final InteractorExecutor interactorExecutor;
   private ForecastView view;
-  private Location location;
+  private Location currentForecastLocation;
+  private String manualLocation;
 
   public CurrentLocationForecastPresenter(ForecastView view, ThreadSpec threadSpec,
       LoadForecastInteractor loadForecastInteractor,
@@ -71,7 +72,12 @@ public class CurrentLocationForecastPresenter
     loadForecast();
   }
 
+  public void setManualLocation(String manualLocation) {
+    this.manualLocation = manualLocation;
+  }
+
   public void onLocationChanged(String location) {
+    manualLocation = location;
     refreshManualLocationForecast(location);
   }
 
@@ -84,14 +90,15 @@ public class CurrentLocationForecastPresenter
   }
 
   public void onOpenMapOptionClick() {
-    if (location != null) {
-      view.goToMapScreen(location.getLat(), location.getLon());
+    if (currentForecastLocation != null) {
+      view.goToMapScreen(currentForecastLocation.getLat(), currentForecastLocation.getLon());
     }
   }
 
   private void loadForecast() {
     view.showLoading();
     loadForecastInteractor.setOutput(this);
+    loadForecastInteractor.setLocation(manualLocation);
     interactorExecutor.execute(loadForecastInteractor);
   }
 
@@ -115,7 +122,7 @@ public class CurrentLocationForecastPresenter
 
   private void extractLocation(List<Forecast> forecastList) {
     if (!forecastList.isEmpty()) {
-      this.location = forecastList.get(0).getLocation();
+      this.currentForecastLocation = forecastList.get(0).getLocation();
     }
   }
 
