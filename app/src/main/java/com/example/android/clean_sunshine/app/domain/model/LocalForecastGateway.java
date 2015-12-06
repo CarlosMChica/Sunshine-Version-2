@@ -2,7 +2,7 @@ package com.example.android.clean_sunshine.app.domain.model;
 
 import java.util.List;
 
-public interface LocalGateway {
+public interface LocalForecastGateway {
   Forecast loadToday();
 
   List<Forecast> load();

@@ -1,11 +1,11 @@
 package com.example.android.clean_sunshine.app.dependencies;
 
 import android.content.Context;
-import com.example.android.clean_sunshine.app.data.local.LocalGatewayImp;
-import com.example.android.clean_sunshine.app.data.network.NetworkGatewayImp;
+import com.example.android.clean_sunshine.app.data.local.LocalForecastGatewayImp;
+import com.example.android.clean_sunshine.app.data.network.NetworkForecastGatewayImp;
 import com.example.android.clean_sunshine.app.data.network.OpenWeatherApiClient;
-import com.example.android.clean_sunshine.app.domain.model.LocalGateway;
-import com.example.android.clean_sunshine.app.domain.model.NetworkGateway;
+import com.example.android.clean_sunshine.app.domain.model.LocalForecastGateway;
+import com.example.android.clean_sunshine.app.domain.model.NetworkForecastGateway;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.logging.HttpLoggingInterceptor;
 import retrofit.GsonConverterFactory;
@@ -16,12 +16,12 @@ import static com.squareup.okhttp.logging.HttpLoggingInterceptor.Level.BODY;
 
 public class GatewaysFactory {
 
-  public static LocalGateway makeLocalGateway(Context context) {
-    return new LocalGatewayImp(context);
+  public static LocalForecastGateway makeLocalGateway(Context context) {
+    return new LocalForecastGatewayImp(context);
   }
 
-  public static NetworkGateway makeNetworkGateway(Context context) {
-    return new NetworkGatewayImp(context, makeApiClient(makeHttpClient()));
+  public static NetworkForecastGateway makeNetworkGateway(Context context) {
+    return new NetworkForecastGatewayImp(context, makeApiClient(makeHttpClient()));
   }
 
   private static OkHttpClient makeHttpClient() {

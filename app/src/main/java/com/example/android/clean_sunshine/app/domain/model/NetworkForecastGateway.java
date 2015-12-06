@@ -2,6 +2,6 @@ package com.example.android.clean_sunshine.app.domain.model;
 
 import java.util.List;
 
-public interface NetworkGateway {
+public interface NetworkForecastGateway {
   List<Forecast> refresh();
 }

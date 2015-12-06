@@ -10,7 +10,7 @@ import com.example.android.clean_sunshine.app.Utility;
 import com.example.android.clean_sunshine.app.data.local.ForecastContract.LocationEntry;
 import com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
-import com.example.android.clean_sunshine.app.domain.model.LocalGateway;
+import com.example.android.clean_sunshine.app.domain.model.LocalForecastGateway;
 import com.example.android.clean_sunshine.app.domain.model.Location;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,13 +21,13 @@ import static java.lang.String.valueOf;
 import static java.util.Calendar.DAY_OF_YEAR;
 import static java.util.Calendar.getInstance;
 
-public class LocalGatewayImp implements LocalGateway {
+public class LocalForecastGatewayImp implements LocalForecastGateway {
 
   private final String preferredLocation;
   private final DbForecastMapper mapper = new DbForecastMapper();
   private final ContentResolver contentResolver;
 
-  public LocalGatewayImp(Context context) {
+  public LocalForecastGatewayImp(Context context) {
     preferredLocation = Utility.getPreferredLocation(context);
     contentResolver = context.getContentResolver();
   }

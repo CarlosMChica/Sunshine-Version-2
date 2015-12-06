@@ -1,19 +1,19 @@
 package com.example.android.clean_sunshine.app.domain.interactor;
 
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
-import com.example.android.clean_sunshine.app.domain.model.LocalGateway;
-import com.example.android.clean_sunshine.app.domain.model.NetworkGateway;
+import com.example.android.clean_sunshine.app.domain.model.LocalForecastGateway;
+import com.example.android.clean_sunshine.app.domain.model.NetworkForecastGateway;
 import java.util.List;
 
 public class LoadTwoWeeksForecastInteractor implements Interactor {
 
-  private LocalGateway localGateway;
-  private NetworkGateway networkGateway;
+  private LocalForecastGateway localForecastGateway;
+  private NetworkForecastGateway networkForecastGateway;
   private LoadForecastInteractorOutput output;
 
-  public LoadTwoWeeksForecastInteractor(LocalGateway localGateway, NetworkGateway networkGateway) {
-    this.localGateway = localGateway;
-    this.networkGateway = networkGateway;
+  public LoadTwoWeeksForecastInteractor(LocalForecastGateway localForecastGateway, NetworkForecastGateway networkForecastGateway) {
+    this.localForecastGateway = localForecastGateway;
+    this.networkForecastGateway = networkForecastGateway;
   }
 
   public void setOutput(LoadForecastInteractorOutput output) {
@@ -29,11 +29,11 @@ public class LoadTwoWeeksForecastInteractor implements Interactor {
   }
 
   private void loadForecast() {
-    List<Forecast> forecastList = localGateway.load();
+    List<Forecast> forecastList = localForecastGateway.load();
     if (forecastList.isEmpty()) {
-      forecastList = networkGateway.refresh();
+      forecastList = networkForecastGateway.refresh();
       output.onForecastLoaded(forecastList);
-      localGateway.update(forecastList);
+      localForecastGateway.update(forecastList);
     } else {
       output.onForecastLoaded(forecastList);
     }

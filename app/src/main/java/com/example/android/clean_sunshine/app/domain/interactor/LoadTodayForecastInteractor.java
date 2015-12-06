@@ -1,15 +1,15 @@
 package com.example.android.clean_sunshine.app.domain.interactor;
 
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
-import com.example.android.clean_sunshine.app.domain.model.LocalGateway;
+import com.example.android.clean_sunshine.app.domain.model.LocalForecastGateway;
 
 public class LoadTodayForecastInteractor implements Interactor {
 
-  private LocalGateway localGateway;
+  private LocalForecastGateway localForecastGateway;
   private LoadTodayForecastInteractorOutput output;
 
-  public LoadTodayForecastInteractor(LocalGateway localGateway) {
-    this.localGateway = localGateway;
+  public LoadTodayForecastInteractor(LocalForecastGateway localForecastGateway) {
+    this.localForecastGateway = localForecastGateway;
   }
 
   public void setOutput(LoadTodayForecastInteractorOutput output) {
@@ -21,7 +21,7 @@ public class LoadTodayForecastInteractor implements Interactor {
   }
 
   private void loadTodayForecast() {
-    output.onTodayForecastLoaded(localGateway.loadToday());
+    output.onTodayForecastLoaded(localForecastGateway.loadToday());
   }
 
   public interface LoadTodayForecastInteractorOutput {
