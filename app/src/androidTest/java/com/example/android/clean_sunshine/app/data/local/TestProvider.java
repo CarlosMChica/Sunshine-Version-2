@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.clean_sunshine.app.data;
+package com.example.android.clean_sunshine.app.data.local;
 
 import android.content.ComponentName;
 import android.content.ContentUris;
@@ -27,11 +27,8 @@ import android.os.Build;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-import com.example.android.clean_sunshine.app.data.local.ForecastContract;
 import com.example.android.clean_sunshine.app.data.local.ForecastContract.LocationEntry;
 import com.example.android.clean_sunshine.app.data.local.ForecastContract.WeatherEntry;
-import com.example.android.clean_sunshine.app.data.local.ForecastDbHelper;
-import com.example.android.clean_sunshine.app.data.local.ForecastProvider;
 
 /*
     Note: This is not a complete set of tests of the Sunshine ContentProvider, but it does test

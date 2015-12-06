@@ -6,8 +6,6 @@ import com.example.android.clean_sunshine.app.domain.model.Location;
 import com.example.android.clean_sunshine.app.domain.model.LocationProvider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
@@ -23,9 +21,9 @@ import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 public class LocationProviderImp
     implements LocationProvider, ConnectionCallbacks, OnConnectionFailedListener {
 
+  private final Context context;
   private GoogleApiClient googleApiClient;
   private LocationProviderListener listener;
-  private Context context;
 
   public LocationProviderImp(Context context) {
     this.context = context;
@@ -37,7 +35,7 @@ public class LocationProviderImp
   }
 
   @Override public void onConnected(Bundle bundle) {
-    doRequestCurrentLocation();
+    getLastLocation();
   }
 
   @Override public void onConnectionSuspended(int i) {
@@ -68,16 +66,15 @@ public class LocationProviderImp
     googleApiClient.connect();
   }
 
-  private void doRequestCurrentLocation() {
-    LocationRequest request = LocationRequest.create();
-    request.setExpirationTime(5000);
-    request.setNumUpdates(1);
-    request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-    FusedLocationApi.requestLocationUpdates(googleApiClient, request, new LocationListener() {
-      @Override public void onLocationChanged(android.location.Location location) {
-        listener.onLocationRetrieved(convertToLocationModel(location));
+  private void getLastLocation() {
+    //This should not be done
+    new Thread(new Runnable() {
+      @Override public void run() {
+        final android.location.Location lastLocation =
+            FusedLocationApi.getLastLocation(googleApiClient);
+        listener.onLocationRetrieved(convertToLocationModel(lastLocation));
       }
-    });
+    }).start();
   }
 
   private Location convertToLocationModel(android.location.Location location) {

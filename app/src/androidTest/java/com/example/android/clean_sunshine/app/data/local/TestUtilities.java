@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.app.data;
+package com.example.android.clean_sunshine.app.data.local;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,8 +10,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
-import com.example.android.clean_sunshine.app.data.local.ForecastContract;
-import com.example.android.clean_sunshine.app.data.local.ForecastDbHelper;
 import com.example.android.clean_sunshine.app.utils.PollingCheck;
 
 import java.util.Map;

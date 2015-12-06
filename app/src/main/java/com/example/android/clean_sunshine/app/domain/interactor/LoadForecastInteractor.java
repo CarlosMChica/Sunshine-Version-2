@@ -25,6 +25,7 @@ public class LoadForecastInteractor implements Interactor {
     try {
       loadForecast();
     } catch (Exception e) {
+      e.printStackTrace();
       output.onLoadForecastError();
     }
   }

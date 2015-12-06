@@ -8,20 +8,24 @@ import com.example.android.clean_sunshine.app.domain.model.Forecast;
 import com.example.android.clean_sunshine.app.domain.model.Location;
 import com.example.android.clean_sunshine.app.presenter.InteractorExecutor;
 import java.util.List;
+import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import me.panavtec.threaddecoratedview.views.ViewInjector;
 
 public class ForecastPresenter
     implements LoadForecastInteractorOutput, RefreshForecastInteractorOutput {
 
+  private final ThreadSpec threadSpec;
   private final LoadForecastInteractor loadForecastInteractor;
   private final RefreshForecastInteractor refreshForecastInteractor;
   private final InteractorExecutor interactorExecutor;
   private ForecastView view;
   private Location location;
 
-  public ForecastPresenter(ForecastView view, LoadForecastInteractor loadForecastInteractor,
+  public ForecastPresenter(ForecastView view, ThreadSpec threadSpec,
+      LoadForecastInteractor loadForecastInteractor,
       RefreshForecastInteractor refreshForecastInteractor, InteractorExecutor interactorExecutor) {
     this.view = view;
+    this.threadSpec = threadSpec;
     this.loadForecastInteractor = loadForecastInteractor;
     this.refreshForecastInteractor = refreshForecastInteractor;
     this.interactorExecutor = interactorExecutor;
@@ -33,6 +37,7 @@ public class ForecastPresenter
   }
 
   @Override public void onLoadForecastError() {
+    view.hideLoading();
     view.showLoadForecastError();
   }
 
@@ -42,10 +47,12 @@ public class ForecastPresenter
   }
 
   @Override public void onRefreshForecastError() {
+    view.hideLoading();
     view.showRefreshForecastError();
   }
 
   public void onUiReady() {
+    view = ViewInjector.inject(view, threadSpec);
     loadForecast();
   }
 

@@ -27,7 +27,7 @@ import com.example.android.clean_sunshine.app.data.local.ForecastContract.Weathe
 public class ForecastDbHelper extends SQLiteOpenHelper {
 
   // If you change the database schema, you must increment the database version.
-  private static final int DATABASE_VERSION = 3;
+  private static final int DATABASE_VERSION = 4;
 
   static final String DATABASE_NAME = "weather.db";
 
@@ -40,8 +40,8 @@ public class ForecastDbHelper extends SQLiteOpenHelper {
     // location setting, the city name, and the latitude and longitude
     final String SQL_CREATE_LOCATION_TABLE = "CREATE TABLE " + LocationEntry.TABLE_NAME + " (" +
         LocationEntry._ID + " INTEGER PRIMARY KEY," +
-        LocationEntry.COLUMN_LOCATION_SETTING + " TEXT UNIQUE NOT NULL, " +
-        LocationEntry.COLUMN_CITY_NAME + " TEXT NOT NULL, " +
+        LocationEntry.COLUMN_LOCATION_SETTING + " TEXT UNIQUE, " +
+        LocationEntry.COLUMN_CITY_NAME + " TEXT UNIQUE NOT NULL, " +
         LocationEntry.COLUMN_COORD_LAT + " REAL NOT NULL, " +
         LocationEntry.COLUMN_COORD_LONG + " REAL NOT NULL, " +
         " UNIQUE (" + LocationEntry.COLUMN_CITY_NAME + ") ON CONFLICT REPLACE);";

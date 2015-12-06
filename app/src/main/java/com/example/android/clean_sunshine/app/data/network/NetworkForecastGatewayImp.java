@@ -34,6 +34,7 @@ public class NetworkForecastGatewayImp implements NetworkForecastGateway {
       ApiForecast apiForecast =
           apiClient.dailyForecast(OPEN_WEATHER_MAP_API_KEY, "metric", getQuery(lat, lon), DAYS, lat,
               lon).execute().body();
+
       return apiForecastMapper.mapFromApi(apiForecast);
     } catch (IOException e) {
       e.printStackTrace();

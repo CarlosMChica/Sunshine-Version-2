@@ -47,7 +47,7 @@ public class RefreshForecastInteractor
     loadForecast(null, null);
   }
 
-  private void loadForecast(Double lat, Double lon) {
+  private void loadForecast(final Double lat, final Double lon) {
     try {
       List<Forecast> networkData = networkForecastGateway.refresh(lat, lon);
       output.onForecastRefreshed(networkData);

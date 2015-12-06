@@ -98,9 +98,9 @@ public class ForecastFragment extends Fragment implements ForecastView {
     return rootView;
   }
 
-  @Override public void onPause() {
+  @Override public void onDestroy() {
     presenter.detachView();
-    super.onPause();
+    super.onDestroy();
   }
 
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {

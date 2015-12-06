@@ -65,6 +65,7 @@ public class LocalForecastGatewayImp implements LocalForecastGateway {
   }
 
   private long updateLocation(Location location) {
+    contentResolver.delete(LocationEntry.CONTENT_URI, null, null);
     ContentValues contentValues = mapper.mapLocationToDb(location);
     Uri insertedUri = contentResolver.insert(LocationEntry.CONTENT_URI, contentValues);
     return ContentUris.parseId(insertedUri);
