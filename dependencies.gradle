@@ -3,6 +3,7 @@ allprojects {
 
     supportLibrariesVersion = "23.1.1"
     threaddecoratedviewVersion = "1.5.2"
+    googlePlayServicesVersion = "8.+"
 
     dependencies = [androidSupportv7           : "com.android.support:appcompat-v7:${supportLibrariesVersion}",
                     recyclerView               : "com.android.support:recyclerview-v7:${supportLibrariesVersion}",
@@ -15,7 +16,8 @@ allprojects {
                     threaddecoratedview        : "me.panavtec:threaddecoratedview-common:${threaddecoratedviewVersion}",
                     threaddecoratedviewcompiler: "me.panavtec:threaddecoratedview-compiler:${threaddecoratedviewVersion}",
                     javax                      : "javax.annotation:jsr250-api:1.0",
-                    dexter                     : "com.karumi:dexter:2.1.2"]
+                    dexter                     : "com.karumi:dexter:2.1.2",
+                    googlePlayServicesLocation : "com.google.android.gms:play-services-location:${googlePlayServicesVersion}",]
 
     testDependencies = [mockito: "org.mockito:mockito-core:1.9.5",
                         junit  : "junit:junit:4.12"]
