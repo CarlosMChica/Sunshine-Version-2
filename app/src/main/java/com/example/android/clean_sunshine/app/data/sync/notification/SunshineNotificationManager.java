@@ -3,8 +3,6 @@ package com.example.android.clean_sunshine.app.data.sync.notification;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import com.example.android.clean_sunshine.app.domain.interactor.LoadTodayForecastInteractor;
 import com.example.android.clean_sunshine.app.domain.interactor.LoadTodayForecastInteractor.LoadTodayForecastInteractorOutput;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
@@ -18,7 +16,6 @@ public class SunshineNotificationManager implements LoadTodayForecastInteractorO
   private static final int WEATHER_NOTIFICATION_ID = 3004;
 
   private final Context context;
-  private final SharedPreferences prefs;
   private final LoadTodayForecastInteractor todayForecastInteractor;
   private final NotificationBuilder notificationBuilder;
   private final NotificationManager notificationManager;
@@ -29,7 +26,6 @@ public class SunshineNotificationManager implements LoadTodayForecastInteractorO
     this.context = context;
     this.todayForecastInteractor = todayForecastInteractor;
     this.notificationBuilder = notificationBuilder;
-    this.prefs = PreferenceManager.getDefaultSharedPreferences(context);
     this.notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
   }
 
