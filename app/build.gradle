@@ -36,5 +36,8 @@ dependencies {
   compile rootProject.ext.dependencies.loggingInterceptor
   compile rootProject.ext.dependencies.threaddecoratedview
   compile rootProject.ext.dependencies.javax
+  compile rootProject.ext.dependencies.dexter
+  compile rootProject.ext.dependencies.googlePlayServicesLocation
+
   apt rootProject.ext.dependencies.threaddecoratedviewcompiler
 }
