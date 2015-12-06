@@ -2,6 +2,7 @@ package com.example.android.clean_sunshine.app.presenter.forecast;
 
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
 import java.util.List;
+import me.panavtec.threaddecoratedview.views.qualifiers.NotDecorated;
 import me.panavtec.threaddecoratedview.views.qualifiers.ThreadDecoratedView;
 
 @ThreadDecoratedView public interface ForecastView {
@@ -17,4 +18,5 @@ import me.panavtec.threaddecoratedview.views.qualifiers.ThreadDecoratedView;
   void hideLoading();
 
   void goToMapScreen(double lat, double lon);
+
 }

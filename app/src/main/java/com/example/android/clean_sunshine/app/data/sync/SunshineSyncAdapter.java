@@ -15,8 +15,8 @@ import android.preference.PreferenceManager;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.data.sync.notification.SunshineNotificationManager;
 import com.example.android.clean_sunshine.app.dependencies.SunshineNotificationManagerFactory;
-import com.example.android.clean_sunshine.app.domain.interactor.RefreshWeekForecastInteractor;
-import com.example.android.clean_sunshine.app.domain.interactor.RefreshWeekForecastInteractor.RefreshForecastInteractorOutput;
+import com.example.android.clean_sunshine.app.domain.interactor.RefreshForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.interactor.RefreshForecastInteractor.RefreshForecastInteractorOutput;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
 import java.util.List;
 
@@ -28,12 +28,12 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter
   private static final int SYNC_INTERVAL = 60 * 180;
   private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
-  private final RefreshWeekForecastInteractor refreshWeekForecastInteractor;
+  private final RefreshForecastInteractor refreshForecastInteractor;
   private final SunshineNotificationManager notificationManager;
 
   public SunshineSyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
-    refreshWeekForecastInteractor = makeRefreshForecastInteractor(context);
+    refreshForecastInteractor = makeRefreshForecastInteractor(context);
     notificationManager = SunshineNotificationManagerFactory.make(context);
   }
 
@@ -52,8 +52,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter
   }
 
   private void updateData() {
-    refreshWeekForecastInteractor.setOutput(this);
-    refreshWeekForecastInteractor.run();
+    refreshForecastInteractor.setOutput(this);
+    refreshForecastInteractor.run();
   }
 
   private void refreshLastSync() {

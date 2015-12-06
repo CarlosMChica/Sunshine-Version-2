@@ -8,17 +8,16 @@ import java.util.List;
 
 public class ApiForecastMapper {
 
-  public List<Forecast> mapFromApi(ApiForecast apiForecast, String locationQuery) {
+  public List<Forecast> mapFromApi(ApiForecast apiForecast) {
     List<ApiForecastItem> items = apiForecast.getItems();
     List<Forecast> list = new ArrayList<>(items.size());
     for (int i = 0; i < items.size(); i++) {
-      list.add(mapForecastItem(i, items.get(i), apiForecast.getCity(), locationQuery));
+      list.add(mapForecastItem(i, items.get(i), apiForecast.getCity()));
     }
     return list;
   }
 
-  private Forecast mapForecastItem(int itemIndex, ApiForecastItem item, ApiCity city,
-      String locationQuery) {
+  private Forecast mapForecastItem(int itemIndex, ApiForecastItem item, ApiCity city) {
     return new Forecast.Builder().id(mapId(item))
         .dateTime(mapDate(itemIndex))
         .description(mapDescription(item))
@@ -26,7 +25,7 @@ public class ApiForecastMapper {
         .low(mapMinTemperature(item.getTemperature()))
         .humidity(item.getHumidity())
         .pressure(item.getPressure())
-        .location(mapLocation(city, locationQuery))
+        .location(mapLocation(city))
         .windDirection(item.getWindDirection())
         .windSpeed(item.getWindSpeed())
         .build();
@@ -38,11 +37,10 @@ public class ApiForecastMapper {
     return calendar.getTimeInMillis();
   }
 
-  private Location mapLocation(ApiCity apiCity, String locationQuery) {
+  private Location mapLocation(ApiCity apiCity) {
     return new Location.Builder().cityName(apiCity.getName())
         .lat(apiCity.getCoord().getLat())
         .lon(apiCity.getCoord().getLon())
-        .locationSetting(locationQuery)
         .build();
   }
 

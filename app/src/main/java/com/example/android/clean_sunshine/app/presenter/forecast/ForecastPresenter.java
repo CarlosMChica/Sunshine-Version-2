@@ -1,32 +1,34 @@
 package com.example.android.clean_sunshine.app.presenter.forecast;
 
-import com.example.android.clean_sunshine.app.domain.interactor.LoadTwoWeeksForecastInteractor;
-import com.example.android.clean_sunshine.app.domain.interactor.RefreshWeekForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.interactor.LoadForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.interactor.LoadForecastInteractor.LoadForecastInteractorOutput;
+import com.example.android.clean_sunshine.app.domain.interactor.RefreshForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.interactor.RefreshForecastInteractor.RefreshForecastInteractorOutput;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
 import com.example.android.clean_sunshine.app.domain.model.Location;
 import com.example.android.clean_sunshine.app.presenter.InteractorExecutor;
 import java.util.List;
 import me.panavtec.threaddecoratedview.views.ViewInjector;
 
-public class ForecastPresenter implements LoadTwoWeeksForecastInteractor.LoadForecastInteractorOutput,
-    RefreshWeekForecastInteractor.RefreshForecastInteractorOutput {
+public class ForecastPresenter
+    implements LoadForecastInteractorOutput, RefreshForecastInteractorOutput {
 
+  private final LoadForecastInteractor loadForecastInteractor;
+  private final RefreshForecastInteractor refreshForecastInteractor;
+  private final InteractorExecutor interactorExecutor;
   private ForecastView view;
-  private LoadTwoWeeksForecastInteractor loadTwoWeeksForecastInteractor;
-  private RefreshWeekForecastInteractor refreshWeekForecastInteractor;
-  private InteractorExecutor interactorExecutor;
-  private List<Forecast> forecastList;
+  private Location location;
 
-  public ForecastPresenter(ForecastView view, LoadTwoWeeksForecastInteractor loadTwoWeeksForecastInteractor,
-      RefreshWeekForecastInteractor refreshWeekForecastInteractor, InteractorExecutor interactorExecutor) {
+  public ForecastPresenter(ForecastView view, LoadForecastInteractor loadForecastInteractor,
+      RefreshForecastInteractor refreshForecastInteractor, InteractorExecutor interactorExecutor) {
     this.view = view;
-    this.loadTwoWeeksForecastInteractor = loadTwoWeeksForecastInteractor;
-    this.refreshWeekForecastInteractor = refreshWeekForecastInteractor;
+    this.loadForecastInteractor = loadForecastInteractor;
+    this.refreshForecastInteractor = refreshForecastInteractor;
     this.interactorExecutor = interactorExecutor;
   }
 
   @Override public void onForecastLoaded(List<Forecast> forecastList) {
-    this.forecastList = forecastList;
+    extractLocation(forecastList);
     updateViewItems(forecastList);
   }
 
@@ -35,7 +37,7 @@ public class ForecastPresenter implements LoadTwoWeeksForecastInteractor.LoadFor
   }
 
   @Override public void onForecastRefreshed(List<Forecast> forecastList) {
-    this.forecastList = forecastList;
+    extractLocation(forecastList);
     updateViewItems(forecastList);
   }
 
@@ -47,8 +49,8 @@ public class ForecastPresenter implements LoadTwoWeeksForecastInteractor.LoadFor
     loadForecast();
   }
 
-  public void onLocationChanged() {
-    refreshForecast();
+  public void onLocationChanged(String location) {
+    refreshForecast(location);
   }
 
   public void detachView() {
@@ -56,30 +58,36 @@ public class ForecastPresenter implements LoadTwoWeeksForecastInteractor.LoadFor
   }
 
   public void onRefreshClick() {
-    refreshForecast();
+    refreshForecast(null);
   }
 
   public void onOpenMapOptionClick() {
-    if (!forecastList.isEmpty()) {
-      Location location = forecastList.get(0).getLocation();
+    if (location != null) {
       view.goToMapScreen(location.getLat(), location.getLon());
     }
   }
 
   private void loadForecast() {
     view.showLoading();
-    loadTwoWeeksForecastInteractor.setOutput(this);
-    interactorExecutor.execute(loadTwoWeeksForecastInteractor);
+    loadForecastInteractor.setOutput(this);
+    interactorExecutor.execute(loadForecastInteractor);
   }
 
-  private void refreshForecast() {
+  private void refreshForecast(String location) {
     view.showLoading();
-    refreshWeekForecastInteractor.setOutput(this);
-    interactorExecutor.execute(refreshWeekForecastInteractor);
+    refreshForecastInteractor.setOutput(this);
+    refreshForecastInteractor.setLocation(location);
+    interactorExecutor.execute(refreshForecastInteractor);
   }
 
   private void updateViewItems(List<Forecast> forecastList) {
     view.hideLoading();
     view.updateForecast(forecastList);
+  }
+
+  private void extractLocation(List<Forecast> forecastList) {
+    if (!forecastList.isEmpty()) {
+      this.location = forecastList.get(0).getLocation();
+    }
   }
 }

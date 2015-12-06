@@ -2,8 +2,6 @@ package com.example.android.clean_sunshine.app.dependencies;
 
 import android.content.Context;
 import android.os.Handler;
-import com.example.android.clean_sunshine.app.domain.interactor.LoadTwoWeeksForecastInteractor;
-import com.example.android.clean_sunshine.app.domain.interactor.RefreshWeekForecastInteractor;
 import com.example.android.clean_sunshine.app.presenter.InteractorExecutor;
 import com.example.android.clean_sunshine.app.presenter.InteractorExecutorImp;
 import com.example.android.clean_sunshine.app.presenter.forecast.ForecastPresenter;
@@ -13,6 +11,7 @@ import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import me.panavtec.threaddecoratedview.views.ViewInjector;
 
 import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeLoadForecastInteractor;
+import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeLoadLocationInteractor;
 import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeRefreshForecastInteractor;
 
 public class PresenterFactory {
@@ -20,28 +19,21 @@ public class PresenterFactory {
   public static final int THREADS = 3;
 
   public static ForecastPresenter make(Context context, ForecastView view) {
-    return new ForecastPresenter(getForecastView(view), getLoadForecastInteractor(context),
-        getRefreshForecastInteractor(context), getInteractorExecutor());
+    return new ForecastPresenter(getForecastView(view), makeLoadForecastInteractor(context),
+        makeRefreshForecastInteractor(context), makeLoadLocationInteractor(context),
+        makeInteractorExecutor());
   }
 
-  private static InteractorExecutor getInteractorExecutor() {
+  private static InteractorExecutor makeInteractorExecutor() {
     return new InteractorExecutorImp(Executors.newFixedThreadPool(THREADS));
   }
 
   private static ForecastView getForecastView(ForecastView view) {
-    return ViewInjector.inject(view, getMainThreadSpec());
+    return ViewInjector.inject(view, makeMainThreadSpec());
   }
 
-  private static ThreadSpec getMainThreadSpec() {
+  private static ThreadSpec makeMainThreadSpec() {
     return new MainThreadSpec();
-  }
-
-  private static LoadTwoWeeksForecastInteractor getLoadForecastInteractor(Context context) {
-    return makeLoadForecastInteractor(context);
-  }
-
-  private static RefreshWeekForecastInteractor getRefreshForecastInteractor(Context context) {
-    return makeRefreshForecastInteractor(context);
   }
 
   private static class MainThreadSpec implements ThreadSpec {

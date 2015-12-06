@@ -18,6 +18,7 @@ package com.example.android.clean_sunshine.app.ui.forecast;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -151,12 +152,12 @@ public class ForecastFragment extends Fragment implements ForecastView {
     recyclerView.setAdapter(adapter);
   }
 
-  public void onLocationChanged() {
-    presenter.onLocationChanged();
+  public void onLocationChanged(String location) {
+    presenter.onLocationChanged(location);
   }
 
-  private void showError(int refresh_forecast_error) {
-    Toast.makeText(getActivity(), getString(refresh_forecast_error), Toast.LENGTH_SHORT).show();
+  private void showError(@StringRes int error) {
+    Toast.makeText(getActivity(), getString(error), Toast.LENGTH_SHORT).show();
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {
