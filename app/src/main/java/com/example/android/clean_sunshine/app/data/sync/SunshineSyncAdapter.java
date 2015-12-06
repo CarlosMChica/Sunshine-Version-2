@@ -15,25 +15,25 @@ import android.preference.PreferenceManager;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.data.sync.notification.SunshineNotificationManager;
 import com.example.android.clean_sunshine.app.dependencies.SunshineNotificationManagerFactory;
-import com.example.android.clean_sunshine.app.domain.interactor.RefreshForecastInteractor;
-import com.example.android.clean_sunshine.app.domain.interactor.RefreshForecastInteractor.RefreshForecastInteractorOutput;
+import com.example.android.clean_sunshine.app.domain.interactor.RefreshCurrentLocationForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.interactor.RefreshCurrentLocationForecastInteractor.RefreshCurrentLocationForecastInteractorOutput;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
 import java.util.List;
 
 import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeRefreshForecastInteractor;
 
 public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter
-    implements RefreshForecastInteractorOutput {
+    implements RefreshCurrentLocationForecastInteractorOutput {
 
   private static final int SYNC_INTERVAL = 60 * 180;
   private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
-  private final RefreshForecastInteractor refreshForecastInteractor;
+  private final RefreshCurrentLocationForecastInteractor refreshCurrentLocationForecastInteractor;
   private final SunshineNotificationManager notificationManager;
 
   public SunshineSyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
-    refreshForecastInteractor = makeRefreshForecastInteractor(context);
+    refreshCurrentLocationForecastInteractor = makeRefreshForecastInteractor(context);
     notificationManager = SunshineNotificationManagerFactory.make(context);
   }
 
@@ -42,18 +42,18 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter
     updateData();
   }
 
-  @Override public void onForecastRefreshed(List<Forecast> forecastList) {
+  @Override public void onCurrentLocationForecastRefreshed(List<Forecast> forecastList) {
     notificationManager.notifyWeather();
     refreshLastSync();
   }
 
-  @Override public void onRefreshForecastError() {
+  @Override public void onRefreshCurrentLocationForecastError() {
     //DO NOTHING
   }
 
   private void updateData() {
-    refreshForecastInteractor.setOutput(this);
-    refreshForecastInteractor.run();
+    refreshCurrentLocationForecastInteractor.setOutput(this);
+    refreshCurrentLocationForecastInteractor.run();
   }
 
   private void refreshLastSync() {

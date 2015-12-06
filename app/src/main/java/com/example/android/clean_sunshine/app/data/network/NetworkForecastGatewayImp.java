@@ -25,7 +25,7 @@ public class NetworkForecastGatewayImp implements NetworkForecastGateway {
     this.apiClient = apiClient;
   }
 
-  @Override public List<Forecast> refresh() {
+  @Override public List<Forecast> refresh(String manualLocation) {
     return refresh(null, null);
   }
 

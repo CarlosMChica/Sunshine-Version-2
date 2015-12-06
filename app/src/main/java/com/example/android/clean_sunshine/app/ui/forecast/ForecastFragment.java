@@ -37,7 +37,7 @@ import com.carlosdelachica.easyrecycleradapters.adapter.EasyRecyclerAdapter;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.dependencies.PresenterFactory;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
-import com.example.android.clean_sunshine.app.presenter.forecast.ForecastPresenter;
+import com.example.android.clean_sunshine.app.presenter.forecast.CurrentLocationForecastPresenter;
 import com.example.android.clean_sunshine.app.presenter.forecast.ForecastView;
 import com.example.android.clean_sunshine.app.ui.forecast.adapter.ForecastAdapter;
 import java.util.List;
@@ -55,7 +55,7 @@ public class ForecastFragment extends Fragment implements ForecastView {
   @Bind(R.id.progressBar) ProgressBar progressBar;
 
   private EasyRecyclerAdapter adapter;
-  private ForecastPresenter presenter;
+  private CurrentLocationForecastPresenter presenter;
   private ForecastFragmentCallback callback;
 
   public ForecastFragment() {

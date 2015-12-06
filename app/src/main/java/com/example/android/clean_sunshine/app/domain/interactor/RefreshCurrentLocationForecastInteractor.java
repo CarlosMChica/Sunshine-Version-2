@@ -7,36 +7,29 @@ import com.example.android.clean_sunshine.app.domain.model.LocationProvider;
 import com.example.android.clean_sunshine.app.domain.model.NetworkForecastGateway;
 import java.util.List;
 
-public class RefreshForecastInteractor
-    implements Interactor, LocationProvider.LocationProviderListener {
+import static com.example.android.clean_sunshine.app.domain.model.LocationProvider.LocationProviderListener;
+
+public class RefreshCurrentLocationForecastInteractor
+    implements Interactor, LocationProviderListener {
 
   private final LocationProvider locationProvider;
   private final NetworkForecastGateway networkForecastGateway;
   private final LocalForecastGateway localForecastGateway;
-  private RefreshForecastInteractorOutput output;
-  private String location;
+  private RefreshCurrentLocationForecastInteractorOutput output;
 
-  public RefreshForecastInteractor(LocationProvider locationProvider,
+  public RefreshCurrentLocationForecastInteractor(LocationProvider locationProvider,
       LocalForecastGateway localForecastGateway, NetworkForecastGateway networkForecastGateway) {
     this.locationProvider = locationProvider;
     this.networkForecastGateway = networkForecastGateway;
     this.localForecastGateway = localForecastGateway;
   }
 
-  public void setOutput(RefreshForecastInteractorOutput output) {
+  public void setOutput(RefreshCurrentLocationForecastInteractorOutput output) {
     this.output = output;
   }
 
-  public void setLocation(String location) {
-    this.location = location;
-  }
-
   @Override public void run() {
-    if (location != null) {
-      loadForecast(null, null);
-    } else {
-      locationProvider.requestCurrentLocation(this);
-    }
+    locationProvider.requestCurrentLocation(this);
   }
 
   @Override public void onLocationRetrieved(Location location) {
@@ -44,22 +37,22 @@ public class RefreshForecastInteractor
   }
 
   @Override public void onRetrieveLocationError() {
-    loadForecast(null, null);
+    output.onRefreshCurrentLocationForecastError();
   }
 
   private void loadForecast(final Double lat, final Double lon) {
     try {
       List<Forecast> networkData = networkForecastGateway.refresh(lat, lon);
-      output.onForecastRefreshed(networkData);
+      output.onCurrentLocationForecastRefreshed(networkData);
       localForecastGateway.update(networkData);
     } catch (Exception e) {
-      output.onRefreshForecastError();
+      output.onRefreshCurrentLocationForecastError();
     }
   }
 
-  public interface RefreshForecastInteractorOutput {
-    void onForecastRefreshed(List<Forecast> forecastList);
+  public interface RefreshCurrentLocationForecastInteractorOutput {
+    void onCurrentLocationForecastRefreshed(List<Forecast> forecastList);
 
-    void onRefreshForecastError();
+    void onRefreshCurrentLocationForecastError();
   }
 }

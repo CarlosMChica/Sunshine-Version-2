@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface NetworkForecastGateway {
 
-  List<Forecast> refresh();
+  List<Forecast> refresh(String manualLocation);
 
   List<Forecast> refresh(Double lat, Double lon);
 }

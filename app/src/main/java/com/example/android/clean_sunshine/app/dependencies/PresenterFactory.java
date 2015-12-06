@@ -6,7 +6,7 @@ import com.example.android.clean_sunshine.app.presenter.InteractorExecutor;
 import com.example.android.clean_sunshine.app.presenter.InteractorExecutorImp;
 import com.example.android.clean_sunshine.app.presenter.detail.DetailPresenter;
 import com.example.android.clean_sunshine.app.presenter.detail.DetailView;
-import com.example.android.clean_sunshine.app.presenter.forecast.ForecastPresenter;
+import com.example.android.clean_sunshine.app.presenter.forecast.CurrentLocationForecastPresenter;
 import com.example.android.clean_sunshine.app.presenter.forecast.ForecastView;
 import java.util.concurrent.Executors;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
@@ -19,9 +19,10 @@ public class PresenterFactory {
 
   public static final int THREADS = 3;
 
-  public static ForecastPresenter makeForecast(Context context, ForecastView view) {
-    return new ForecastPresenter(view, makeMainThreadSpec(), makeLoadForecastInteractor(context),
-        makeRefreshForecastInteractor(context), makeInteractorExecutor());
+  public static CurrentLocationForecastPresenter makeForecast(Context context, ForecastView view) {
+    return new CurrentLocationForecastPresenter(view, makeMainThreadSpec(), makeLoadForecastInteractor(context),
+        makeRefreshForecastInteractor(context), refreshManualLocationForecastInteractor,
+        makeInteractorExecutor());
   }
 
   private static InteractorExecutor makeInteractorExecutor() {
