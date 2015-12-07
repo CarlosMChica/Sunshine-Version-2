@@ -6,7 +6,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.Utility;
-import com.example.android.clean_sunshine.app.domain.model.Forecast;
+import com.example.android.clean_sunshine.domain.model.Forecast;
 
 public class ForecastTodayViewHolder extends ForecastViewHolder {
 

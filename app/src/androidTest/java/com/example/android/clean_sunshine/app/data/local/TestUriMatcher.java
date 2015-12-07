@@ -18,8 +18,8 @@ package com.example.android.clean_sunshine.app.data.local;
 import android.content.UriMatcher;
 import android.net.Uri;
 import android.test.AndroidTestCase;
-import com.example.android.clean_sunshine.app.data.local.ForecastContract;
-import com.example.android.clean_sunshine.app.data.local.ForecastProvider;
+import com.example.android.clean_sunshine.data.local.ForecastContract;
+import com.example.android.clean_sunshine.data.local.ForecastProvider;
 
 /*
     Uncomment this class when you are ready to test your UriMatcher.  Note that this class utilizes

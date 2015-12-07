@@ -20,6 +20,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
+import com.example.android.clean_sunshine.data.local.ForecastContract;
+import com.example.android.clean_sunshine.data.local.ForecastDbHelper;
 import java.util.HashSet;
 
 public class TestDb extends AndroidTestCase {

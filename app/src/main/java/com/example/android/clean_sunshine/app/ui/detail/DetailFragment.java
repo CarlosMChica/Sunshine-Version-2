@@ -31,10 +31,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.Utility;
-import com.example.android.clean_sunshine.app.presenter.detail.DetailPresenter;
-import com.example.android.clean_sunshine.app.presenter.detail.DetailView;
+import com.example.android.clean_sunshine.presenter.detail.DetailPresenter;
+import com.example.android.clean_sunshine.presenter.detail.DetailView;
 
-import static com.example.android.clean_sunshine.app.dependencies.PresenterFactory.makeDetail;
+import static com.example.android.clean_sunshine.dependencies.PresenterFactory.makeDetail;
 
 /**
  * A placeholder fragment containing a simple view.

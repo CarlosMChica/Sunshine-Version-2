@@ -12,6 +12,8 @@ import android.test.AndroidTestCase;
 
 import com.example.android.clean_sunshine.app.utils.PollingCheck;
 
+import com.example.android.clean_sunshine.data.local.ForecastContract;
+import com.example.android.clean_sunshine.data.local.ForecastDbHelper;
 import java.util.Map;
 import java.util.Set;
 

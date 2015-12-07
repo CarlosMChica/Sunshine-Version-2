@@ -17,7 +17,7 @@ package com.example.android.clean_sunshine.app.data.local;
 
 import android.net.Uri;
 import android.test.AndroidTestCase;
-import com.example.android.clean_sunshine.app.data.local.ForecastContract;
+import com.example.android.clean_sunshine.data.local.ForecastContract;
 
 /*
     Students: This is NOT a complete test for the WeatherContract --- just for the functions

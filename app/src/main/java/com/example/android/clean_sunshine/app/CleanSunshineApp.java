@@ -1,7 +1,7 @@
 package com.example.android.clean_sunshine.app;
 
 import android.app.Application;
-import com.example.android.clean_sunshine.app.data.sync.SunshineSyncAdapter;
+import com.example.android.clean_sunshine.data.sync.SunshineSyncAdapter;
 import com.karumi.dexter.Dexter;
 
 public class CleanSunshineApp extends Application {
