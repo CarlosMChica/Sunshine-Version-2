@@ -142,6 +142,11 @@ public class DetailFragment extends Fragment implements DetailView {
     startActivity(buildChooserIntent(shareText));
   }
 
+  @Override public void onDestroy() {
+    presenter.detachView();
+    super.onDestroy();
+  }
+
   private Intent buildChooserIntent(String shareText) {
     Intent chooser = Intent.createChooser(createShareForecastIntent(shareText), null);
     chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

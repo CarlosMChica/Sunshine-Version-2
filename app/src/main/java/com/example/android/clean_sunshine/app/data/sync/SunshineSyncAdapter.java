@@ -15,25 +15,25 @@ import android.preference.PreferenceManager;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.data.sync.notification.SunshineNotificationManager;
 import com.example.android.clean_sunshine.app.dependencies.SunshineNotificationManagerFactory;
-import com.example.android.clean_sunshine.app.domain.interactor.RefreshCurrentLocationForecastInteractor;
-import com.example.android.clean_sunshine.app.domain.interactor.RefreshCurrentLocationForecastInteractor.RefreshCurrentLocationForecastInteractorOutput;
+import com.example.android.clean_sunshine.app.domain.interactor.RefreshManualLocationForecastInteractor;
+import com.example.android.clean_sunshine.app.domain.interactor.RefreshManualLocationForecastInteractor.RefreshManualLocationForecastInteractorOutput;
 import com.example.android.clean_sunshine.app.domain.model.Forecast;
 import java.util.List;
 
-import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeRefreshForecastInteractor;
+import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeRefreshManualLocationForecastInteractor;
 
 public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter
-    implements RefreshCurrentLocationForecastInteractorOutput {
+    implements RefreshManualLocationForecastInteractorOutput {
 
   private static final int SYNC_INTERVAL = 60 * 180;
   private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
-  private final RefreshCurrentLocationForecastInteractor refreshCurrentLocationForecastInteractor;
+  private final RefreshManualLocationForecastInteractor refreshManualLocationForecastInteractor;
   private final SunshineNotificationManager notificationManager;
 
   public SunshineSyncAdapter(Context context, boolean autoInitialize) {
     super(context, autoInitialize);
-    refreshCurrentLocationForecastInteractor = makeRefreshForecastInteractor(context);
+    refreshManualLocationForecastInteractor = makeRefreshManualLocationForecastInteractor(context);
     notificationManager = SunshineNotificationManagerFactory.make(context);
   }
 
@@ -42,18 +42,18 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter
     updateData();
   }
 
-  @Override public void onCurrentLocationForecastRefreshed(List<Forecast> forecastList) {
+  @Override public void onManualLocationForecastRefreshed(List<Forecast> forecastList) {
     notificationManager.notifyWeather();
     refreshLastSync();
   }
 
-  @Override public void onRefreshCurrentLocationForecastError() {
-    //DO NOTHING
+  @Override public void onRefreshManualLocationForecastError() {
+
   }
 
   private void updateData() {
-    refreshCurrentLocationForecastInteractor.setOutput(this);
-    refreshCurrentLocationForecastInteractor.run();
+    refreshManualLocationForecastInteractor.setOutput(this);
+    refreshManualLocationForecastInteractor.run();
   }
 
   private void refreshLastSync() {

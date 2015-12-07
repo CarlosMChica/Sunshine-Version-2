@@ -27,15 +27,7 @@ public class DetailPresenter
 
   @Override public void onForecastLoaded(Forecast forecast) {
     this.forecast = forecast;
-    view.showIcon(forecast.getId());
-    view.showFriendDate(forecast.getDateTime());
-    view.showDate(forecast.getDateTime());
-    view.showDescription(forecast.getDescription());
-    view.showHighTemp(forecast.getHigh());
-    view.showLowTemp(forecast.getLow());
-    view.showHumidity(forecast.getHumidity());
-    view.showWind(((float) forecast.getWindDirection()), ((float) forecast.getWindSpeed()));
-    view.showPressure(forecast.getPressure());
+    updateView(forecast);
   }
 
   public void setForecastId(int forecastId) {
@@ -61,5 +53,17 @@ public class DetailPresenter
     String shareText = String.format("%s - %s/%s", forecast.getDescription(), forecast.getHigh(),
         forecast.getLow());
     view.showShareOptions(shareText);
+  }
+
+  private void updateView(Forecast forecast) {
+    //view.showIcon(forecast.getId());
+    //view.showFriendDate(forecast.getDateTime());
+    //view.showDate(forecast.getDateTime());
+    //view.showDescription(forecast.getDescription());
+    //view.showHighTemp(forecast.getHigh());
+    //view.showLowTemp(forecast.getLow());
+    //view.showHumidity(forecast.getHumidity());
+    //view.showWind(((float) forecast.getWindDirection()), ((float) forecast.getWindSpeed()));
+    //view.showPressure(forecast.getPressure());
   }
 }
