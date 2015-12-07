@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.presenter;
+package com.example.android.clean_sunshine.presentation;
 
 import com.example.android.clean_sunshine.domain.interactor.Interactor;
 import java.util.concurrent.ExecutorService;

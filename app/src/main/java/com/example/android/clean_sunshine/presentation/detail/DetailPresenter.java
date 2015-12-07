@@ -1,8 +1,8 @@
-package com.example.android.clean_sunshine.presenter.detail;
+package com.example.android.clean_sunshine.presentation.detail;
 
 import com.example.android.clean_sunshine.domain.interactor.LoadForecastByIdInteractor;
 import com.example.android.clean_sunshine.domain.model.Forecast;
-import com.example.android.clean_sunshine.presenter.InteractorExecutor;
+import com.example.android.clean_sunshine.presentation.InteractorExecutor;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import me.panavtec.threaddecoratedview.views.ViewInjector;
 

@@ -1,12 +1,12 @@
-package com.example.android.clean_sunshine.presenter;
+package com.example.android.clean_sunshine.presentation;
 
 import com.example.android.clean_sunshine.domain.interactor.Interactor;
 import com.example.android.clean_sunshine.domain.interactor.LoadForecastInteractor;
 import com.example.android.clean_sunshine.domain.interactor.RefreshCurrentLocationForecastInteractor;
 import com.example.android.clean_sunshine.domain.interactor.RefreshManualLocationForecastInteractor;
 import com.example.android.clean_sunshine.domain.model.Forecast;
-import com.example.android.clean_sunshine.presenter.forecast.ForecastPresenter;
-import com.example.android.clean_sunshine.presenter.forecast.ForecastView;
+import com.example.android.clean_sunshine.presentation.forecast.ForecastPresenter;
+import com.example.android.clean_sunshine.presentation.forecast.ForecastView;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class) public class ForecastPresenterShould {
 
   private static final List<Forecast> FORECAST_LIST = singletonList(new Forecast.Builder().build());
-  public static final String LOCATION = "location";
+  private static final String LOCATION = "location";
 
   private ForecastPresenter presenter;
 

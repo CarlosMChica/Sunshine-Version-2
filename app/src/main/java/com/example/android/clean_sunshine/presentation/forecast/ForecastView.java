@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.presenter.forecast;
+package com.example.android.clean_sunshine.presentation.forecast;
 
 import com.example.android.clean_sunshine.domain.model.Forecast;
 import java.util.List;

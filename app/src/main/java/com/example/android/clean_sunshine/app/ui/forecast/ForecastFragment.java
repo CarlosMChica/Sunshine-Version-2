@@ -38,8 +38,8 @@ import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.Utility;
 import com.example.android.clean_sunshine.dependencies.PresenterFactory;
 import com.example.android.clean_sunshine.domain.model.Forecast;
-import com.example.android.clean_sunshine.presenter.forecast.ForecastPresenter;
-import com.example.android.clean_sunshine.presenter.forecast.ForecastView;
+import com.example.android.clean_sunshine.presentation.forecast.ForecastPresenter;
+import com.example.android.clean_sunshine.presentation.forecast.ForecastView;
 import com.example.android.clean_sunshine.app.ui.forecast.adapter.ForecastAdapter;
 import java.util.List;
 

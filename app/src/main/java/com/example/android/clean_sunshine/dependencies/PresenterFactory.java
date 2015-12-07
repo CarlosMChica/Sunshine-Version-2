@@ -2,14 +2,14 @@ package com.example.android.clean_sunshine.dependencies;
 
 import android.content.Context;
 import android.os.Handler;
-import com.example.android.clean_sunshine.presenter.InteractorExecutor;
-import com.example.android.clean_sunshine.presenter.InteractorExecutorImp;
-import com.example.android.clean_sunshine.presenter.SunshineViewInjector;
-import com.example.android.clean_sunshine.presenter.ViewInjectorImp;
-import com.example.android.clean_sunshine.presenter.detail.DetailPresenter;
-import com.example.android.clean_sunshine.presenter.detail.DetailView;
-import com.example.android.clean_sunshine.presenter.forecast.ForecastPresenter;
-import com.example.android.clean_sunshine.presenter.forecast.ForecastView;
+import com.example.android.clean_sunshine.presentation.InteractorExecutor;
+import com.example.android.clean_sunshine.presentation.InteractorExecutorImp;
+import com.example.android.clean_sunshine.presentation.SunshineViewInjector;
+import com.example.android.clean_sunshine.presentation.ViewInjectorImp;
+import com.example.android.clean_sunshine.presentation.detail.DetailPresenter;
+import com.example.android.clean_sunshine.presentation.detail.DetailView;
+import com.example.android.clean_sunshine.presentation.forecast.ForecastPresenter;
+import com.example.android.clean_sunshine.presentation.forecast.ForecastView;
 import java.util.concurrent.Executors;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 

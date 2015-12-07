@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.presenter;
+package com.example.android.clean_sunshine.presentation;
 
 public interface SunshineViewInjector {
   <V> V inject(V view);

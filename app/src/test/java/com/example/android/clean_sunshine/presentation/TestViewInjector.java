@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.presenter;
+package com.example.android.clean_sunshine.presentation;
 
 public class TestViewInjector implements SunshineViewInjector {
   @Override public <V> V inject(V view) {

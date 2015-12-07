@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.presenter.forecast;
+package com.example.android.clean_sunshine.presentation.forecast;
 
 import com.example.android.clean_sunshine.domain.interactor.LoadForecastInteractor;
 import com.example.android.clean_sunshine.domain.interactor.LoadForecastInteractor.LoadForecastInteractorOutput;
@@ -7,8 +7,8 @@ import com.example.android.clean_sunshine.domain.interactor.RefreshCurrentLocati
 import com.example.android.clean_sunshine.domain.interactor.RefreshManualLocationForecastInteractor;
 import com.example.android.clean_sunshine.domain.model.Forecast;
 import com.example.android.clean_sunshine.domain.model.Location;
-import com.example.android.clean_sunshine.presenter.InteractorExecutor;
-import com.example.android.clean_sunshine.presenter.SunshineViewInjector;
+import com.example.android.clean_sunshine.presentation.InteractorExecutor;
+import com.example.android.clean_sunshine.presentation.SunshineViewInjector;
 import java.util.List;
 
 import static com.example.android.clean_sunshine.domain.interactor.RefreshManualLocationForecastInteractor.RefreshManualLocationForecastInteractorOutput;

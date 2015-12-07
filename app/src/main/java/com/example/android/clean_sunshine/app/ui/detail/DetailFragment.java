@@ -31,8 +31,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.app.Utility;
-import com.example.android.clean_sunshine.presenter.detail.DetailPresenter;
-import com.example.android.clean_sunshine.presenter.detail.DetailView;
+import com.example.android.clean_sunshine.presentation.detail.DetailPresenter;
+import com.example.android.clean_sunshine.presentation.detail.DetailView;
 
 import static com.example.android.clean_sunshine.dependencies.PresenterFactory.makeDetail;
 

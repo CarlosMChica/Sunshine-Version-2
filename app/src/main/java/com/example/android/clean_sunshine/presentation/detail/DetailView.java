@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.presenter.detail;
+package com.example.android.clean_sunshine.presentation.detail;
 
 import me.panavtec.threaddecoratedview.views.qualifiers.NotDecorated;
 import me.panavtec.threaddecoratedview.views.qualifiers.ThreadDecoratedView;
