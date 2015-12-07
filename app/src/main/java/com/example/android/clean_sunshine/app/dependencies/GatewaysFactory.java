@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.dependencies;
+package com.example.android.clean_sunshine.app.dependencies;
 
 import android.content.Context;
 import com.example.android.clean_sunshine.data.local.LocalForecastGatewayImp;

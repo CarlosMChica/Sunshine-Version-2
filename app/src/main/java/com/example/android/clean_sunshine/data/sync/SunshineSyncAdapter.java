@@ -14,12 +14,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import com.example.android.clean_sunshine.app.R;
 import com.example.android.clean_sunshine.data.sync.notification.SunshineNotificationManager;
-import com.example.android.clean_sunshine.dependencies.SunshineNotificationManagerFactory;
+import com.example.android.clean_sunshine.app.dependencies.SunshineNotificationManagerFactory;
 import com.example.android.clean_sunshine.domain.interactor.RefreshManualLocationForecastInteractor;
 import com.example.android.clean_sunshine.domain.model.Forecast;
 import java.util.List;
 
-import static com.example.android.clean_sunshine.dependencies.InteractorFactory.makeRefreshManualLocationForecastInteractor;
+import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeRefreshManualLocationForecastInteractor;
 
 public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter
     implements

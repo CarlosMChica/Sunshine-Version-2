@@ -1,10 +1,10 @@
-package com.example.android.clean_sunshine.dependencies;
+package com.example.android.clean_sunshine.app.dependencies;
 
 import android.content.Context;
 import com.example.android.clean_sunshine.data.sync.notification.NotificationBuilder;
 import com.example.android.clean_sunshine.data.sync.notification.SunshineNotificationManager;
 
-import static com.example.android.clean_sunshine.dependencies.InteractorFactory.makeLoadTodayForecastInteractor;
+import static com.example.android.clean_sunshine.app.dependencies.InteractorFactory.makeLoadTodayForecastInteractor;
 
 public class SunshineNotificationManagerFactory {
 

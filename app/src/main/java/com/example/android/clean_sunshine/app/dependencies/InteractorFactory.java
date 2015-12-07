@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.dependencies;
+package com.example.android.clean_sunshine.app.dependencies;
 
 import android.content.Context;
 import com.example.android.clean_sunshine.data.gps.AndroidLocationProvider;
@@ -9,8 +9,8 @@ import com.example.android.clean_sunshine.domain.interactor.RefreshCurrentLocati
 import com.example.android.clean_sunshine.domain.interactor.RefreshManualLocationForecastInteractor;
 import com.example.android.clean_sunshine.domain.model.LocationProvider;
 
-import static com.example.android.clean_sunshine.dependencies.GatewaysFactory.makeLocalGateway;
-import static com.example.android.clean_sunshine.dependencies.GatewaysFactory.makeNetworkGateway;
+import static com.example.android.clean_sunshine.app.dependencies.GatewaysFactory.makeLocalGateway;
+import static com.example.android.clean_sunshine.app.dependencies.GatewaysFactory.makeNetworkGateway;
 
 public class InteractorFactory {
 

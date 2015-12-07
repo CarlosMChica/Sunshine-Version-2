@@ -1,4 +1,4 @@
-package com.example.android.clean_sunshine.dependencies;
+package com.example.android.clean_sunshine.app.dependencies;
 
 import android.content.Context;
 import android.os.Handler;
@@ -13,17 +13,13 @@ import com.example.android.clean_sunshine.presentation.forecast.ForecastView;
 import java.util.concurrent.Executors;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 
-import static com.example.android.clean_sunshine.dependencies.InteractorFactory.makeLoadForecastByIdInteractor;
-import static com.example.android.clean_sunshine.dependencies.InteractorFactory.makeLoadForecastInteractor;
-import static com.example.android.clean_sunshine.dependencies.InteractorFactory.makeRefreshForecastInteractor;
-
 public class PresenterFactory {
 
   public static final int THREADS = 3;
 
   public static ForecastPresenter makeForecast(Context context, ForecastView view) {
-    return new ForecastPresenter(view, makeViewInjector(), makeLoadForecastInteractor(context),
-        makeRefreshForecastInteractor(context),
+    return new ForecastPresenter(view, makeViewInjector(), InteractorFactory.makeLoadForecastInteractor(context),
+        InteractorFactory.makeRefreshForecastInteractor(context),
         InteractorFactory.makeRefreshManualLocationForecastInteractor(context),
         makeInteractorExecutor());
   }
@@ -41,7 +37,7 @@ public class PresenterFactory {
   }
 
   public static DetailPresenter makeDetail(Context context, DetailView view) {
-    return new DetailPresenter(view, makeThreadSpec(), makeLoadForecastByIdInteractor(context),
+    return new DetailPresenter(view, makeThreadSpec(), InteractorFactory.makeLoadForecastByIdInteractor(context),
         makeInteractorExecutor());
   }
 

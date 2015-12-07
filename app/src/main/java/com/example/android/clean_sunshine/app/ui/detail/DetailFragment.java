@@ -34,7 +34,7 @@ import com.example.android.clean_sunshine.app.Utility;
 import com.example.android.clean_sunshine.presentation.detail.DetailPresenter;
 import com.example.android.clean_sunshine.presentation.detail.DetailView;
 
-import static com.example.android.clean_sunshine.dependencies.PresenterFactory.makeDetail;
+import static com.example.android.clean_sunshine.app.dependencies.PresenterFactory.makeDetail;
 
 /**
  * A placeholder fragment containing a simple view.
