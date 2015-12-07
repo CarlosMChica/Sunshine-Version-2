@@ -40,4 +40,8 @@ dependencies {
   compile rootProject.ext.dependencies.googlePlayServicesLocation
 
   apt rootProject.ext.dependencies.threaddecoratedviewcompiler
+
+  testCompile rootProject.ext.testDependencies.mockito
+  testCompile rootProject.ext.testDependencies.junit
+
 }
