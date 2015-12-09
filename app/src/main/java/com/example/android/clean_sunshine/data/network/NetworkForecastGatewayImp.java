@@ -31,11 +31,13 @@ public class NetworkForecastGatewayImp implements NetworkForecastGateway {
 
   @Override public List<Forecast> refresh(Double lat, Double lon) {
     try {
+      String query = getQuery(lat, lon);
       ApiForecast apiForecast =
-          apiClient.dailyForecast(OPEN_WEATHER_MAP_API_KEY, "metric", getQuery(lat, lon), DAYS, lat,
-              lon).execute().body();
+          apiClient.dailyForecast(OPEN_WEATHER_MAP_API_KEY, "metric", query, DAYS, lat, lon)
+              .execute()
+              .body();
 
-      return apiForecastMapper.mapFromApi(apiForecast);
+      return apiForecastMapper.mapFromApi(apiForecast, query);
     } catch (IOException e) {
       e.printStackTrace();
       return new ArrayList<>();

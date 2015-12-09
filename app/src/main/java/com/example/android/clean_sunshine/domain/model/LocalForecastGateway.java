@@ -9,5 +9,5 @@ public interface LocalForecastGateway {
 
   void update(List<Forecast> forecastList);
 
-  Forecast loadById(int forecastId);
+  Forecast load(long dateTime, String locationSetting);
 }

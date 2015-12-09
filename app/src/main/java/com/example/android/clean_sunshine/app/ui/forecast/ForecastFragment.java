@@ -146,7 +146,7 @@ public class ForecastFragment extends Fragment implements ForecastView {
     adapter.setOnClickListener(new OnItemClickListener() {
       @Override public void onItemClick(int position, View viewWe) {
         Forecast forecast = (Forecast) adapter.get(position);
-        callback.onItemSelected(forecast.getId());
+        callback.onItemSelected(forecast);
       }
     });
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -183,6 +183,6 @@ public class ForecastFragment extends Fragment implements ForecastView {
 
   public interface ForecastFragmentCallback {
 
-    void onItemSelected(int weatherId);
+    void onItemSelected(Forecast forecast);
   }
 }

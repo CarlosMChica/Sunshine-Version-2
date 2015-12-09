@@ -8,24 +8,26 @@ import java.util.List;
 
 public class ApiForecastMapper {
 
-  public List<Forecast> mapFromApi(ApiForecast apiForecast) {
+  public List<Forecast> mapFromApi(ApiForecast apiForecast, String locationQuery) {
     List<ApiForecastItem> items = apiForecast.getItems();
     List<Forecast> list = new ArrayList<>(items.size());
     for (int i = 0; i < items.size(); i++) {
-      list.add(mapForecastItem(i, items.get(i), apiForecast.getCity()));
+      list.add(mapForecastItem(i, items.get(i), apiForecast.getCity(), locationQuery));
     }
     return list;
   }
 
-  private Forecast mapForecastItem(int itemIndex, ApiForecastItem item, ApiCity city) {
-    return new Forecast.Builder().id(mapId(item))
+  private Forecast mapForecastItem(int itemIndex, ApiForecastItem item, ApiCity city,
+      String locationQuery) {
+    ApiWeather apiWeather = item.getWeatherList().get(0);
+    return new Forecast.Builder().id(apiWeather.getId())
         .dateTime(mapDate(itemIndex))
-        .description(mapDescription(item))
-        .high(mapMaxTemperature(item.getTemperature()))
-        .low(mapMinTemperature(item.getTemperature()))
+        .description(apiWeather.getDescription())
+        .high(item.getTemperature().getMax())
+        .low(item.getTemperature().getMin())
         .humidity(item.getHumidity())
         .pressure(item.getPressure())
-        .location(mapLocation(city))
+        .location(mapLocation(city, locationQuery))
         .windDirection(item.getWindDirection())
         .windSpeed(item.getWindSpeed())
         .build();
@@ -37,26 +39,11 @@ public class ApiForecastMapper {
     return calendar.getTimeInMillis();
   }
 
-  private Location mapLocation(ApiCity apiCity) {
+  private Location mapLocation(ApiCity apiCity, String locationQuery) {
     return new Location.Builder().cityName(apiCity.getName())
         .lat(apiCity.getCoord().getLat())
         .lon(apiCity.getCoord().getLon())
+        .locationSetting(locationQuery)
         .build();
-  }
-
-  private double mapMinTemperature(ApiTemperature apiTemperature) {
-    return apiTemperature.getMin();
-  }
-
-  private double mapMaxTemperature(ApiTemperature apiTemperature) {
-    return apiTemperature.getMax();
-  }
-
-  private String mapDescription(ApiForecastItem item) {
-    return item.getWeatherList().get(0).getDescription();
-  }
-
-  private int mapId(ApiForecastItem item) {
-    return item.getWeatherList().get(0).getId();
   }
 }

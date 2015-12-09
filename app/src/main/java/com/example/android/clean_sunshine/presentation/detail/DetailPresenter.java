@@ -1,27 +1,28 @@
 package com.example.android.clean_sunshine.presentation.detail;
 
-import com.example.android.clean_sunshine.domain.interactor.LoadForecastByIdInteractor;
+import com.example.android.clean_sunshine.domain.interactor.LoadSingleForecastInteractor;
 import com.example.android.clean_sunshine.domain.model.Forecast;
 import com.example.android.clean_sunshine.presentation.InteractorExecutor;
 import me.panavtec.threaddecoratedview.views.ThreadSpec;
 import me.panavtec.threaddecoratedview.views.ViewInjector;
 
 public class DetailPresenter
-    implements LoadForecastByIdInteractor.LoadForecastByIdInteractorOutput {
+    implements LoadSingleForecastInteractor.LoadForecastByIdInteractorOutput {
 
   private final ThreadSpec threadSpec;
-  private final LoadForecastByIdInteractor loadForecastByIdInteractor;
+  private final LoadSingleForecastInteractor loadSingleForecastInteractor;
   private final InteractorExecutor interactorExecutor;
   private DetailView view;
-  private int forecastId;
   private Forecast forecast;
+  private long dateTime;
+  private String locationSetting;
 
   public DetailPresenter(DetailView view, ThreadSpec threadSpec,
-      LoadForecastByIdInteractor loadForecastByIdInteractor,
+      LoadSingleForecastInteractor loadSingleForecastInteractor,
       InteractorExecutor interactorExecutor) {
     this.view = view;
     this.threadSpec = threadSpec;
-    this.loadForecastByIdInteractor = loadForecastByIdInteractor;
+    this.loadSingleForecastInteractor = loadSingleForecastInteractor;
     this.interactorExecutor = interactorExecutor;
   }
 
@@ -30,8 +31,9 @@ public class DetailPresenter
     updateView(forecast);
   }
 
-  public void setForecastId(int forecastId) {
-    this.forecastId = forecastId;
+  public void setForecastData(long dateTime, String locationSetting) {
+    this.dateTime = dateTime;
+    this.locationSetting = locationSetting;
   }
 
   public void onUiReady() {
@@ -44,9 +46,9 @@ public class DetailPresenter
   }
 
   private void loadForecast() {
-    loadForecastByIdInteractor.setForecastId(forecastId);
-    loadForecastByIdInteractor.setOutput(this);
-    interactorExecutor.execute(loadForecastByIdInteractor);
+    loadSingleForecastInteractor.setForecastData(dateTime, locationSetting);
+    loadSingleForecastInteractor.setOutput(this);
+    interactorExecutor.execute(loadSingleForecastInteractor);
   }
 
   public void onShareClicked() {

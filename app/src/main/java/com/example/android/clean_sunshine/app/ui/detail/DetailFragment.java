@@ -41,9 +41,9 @@ import static com.example.android.clean_sunshine.app.dependencies.PresenterFacto
  */
 public class DetailFragment extends Fragment implements DetailView {
 
-  private static final String WEATHER_ID_EXTRA = "DetailFragment.WEATHER_ID_EXTRA";
-
+  private static final String DATE_TIME = "DetailFragment.DATE_TIME";
   private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
+  private static final String LOCATION_SETTING = "DetailFragment.LOCATION_SETTING";
 
   @Bind(R.id.detail_icon) ImageView mIconView;
   @Bind(R.id.detail_day_textview) TextView mFriendlyDateView;
@@ -55,10 +55,20 @@ public class DetailFragment extends Fragment implements DetailView {
   @Bind(R.id.detail_wind_textview) TextView mWindView;
   @Bind(R.id.detail_pressure_textview) TextView mPressureView;
 
-  private int forecastId;
+  private long dateTime;
   private DetailPresenter presenter;
+  private String locationSetting;
 
   public DetailFragment() {
+  }
+
+  public static Fragment newInstance(long dateTime, String locationSetting) {
+    DetailFragment fragment = new DetailFragment();
+    Bundle args = new Bundle();
+    args.putLong(DATE_TIME, dateTime);
+    args.putString(LOCATION_SETTING, locationSetting);
+    fragment.setArguments(args);
+    return fragment;
   }
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,17 +77,9 @@ public class DetailFragment extends Fragment implements DetailView {
     setHasOptionsMenu(true);
   }
 
-  public static DetailFragment newInstance(int weatherId) {
-    DetailFragment fragment = new DetailFragment();
-    Bundle args = new Bundle();
-    args.putInt(WEATHER_ID_EXTRA, weatherId);
-    fragment.setArguments(args);
-    return fragment;
-  }
-
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    initForecastId();
+    getArgments();
     View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
     ButterKnife.bind(this, rootView);
     return rootView;
@@ -85,7 +87,7 @@ public class DetailFragment extends Fragment implements DetailView {
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    presenter.setForecastId(forecastId);
+    presenter.setForecastData(dateTime, locationSetting);
     presenter.onUiReady();
   }
 
@@ -161,10 +163,11 @@ public class DetailFragment extends Fragment implements DetailView {
     return shareIntent;
   }
 
-  private void initForecastId() {
+  private void getArgments() {
     Bundle arguments = getArguments();
     if (arguments != null) {
-      forecastId = arguments.getInt(WEATHER_ID_EXTRA);
+      dateTime = arguments.getLong(DATE_TIME);
+      locationSetting = arguments.getString(LOCATION_SETTING);
     }
   }
 }

@@ -25,6 +25,7 @@ import com.example.android.clean_sunshine.app.Utility;
 import com.example.android.clean_sunshine.app.ui.detail.DetailActivity;
 import com.example.android.clean_sunshine.app.ui.detail.DetailFragment;
 import com.example.android.clean_sunshine.app.ui.settings.SettingsActivity;
+import com.example.android.clean_sunshine.domain.model.Forecast;
 
 public class MainActivity extends AppCompatActivity
     implements ForecastFragment.ForecastFragmentCallback {
@@ -83,14 +84,14 @@ public class MainActivity extends AppCompatActivity
     }
   }
 
-  @Override public void onItemSelected(int weatherId) {
+  @Override public void onItemSelected(Forecast forecast) {
     if (twoPane) {
       getSupportFragmentManager().beginTransaction()
-          .replace(R.id.weather_detail_container, DetailFragment.newInstance(weatherId),
-              DETAIL_FRAGMENT_TAG)
+          .replace(R.id.weather_detail_container, DetailFragment.newInstance(forecast.getDateTime(),
+              forecast.getLocation().getLocationSetting()), DETAIL_FRAGMENT_TAG)
           .commit();
     } else {
-      DetailActivity.startActivity(this, weatherId);
+      DetailActivity.startActivity(this, forecast);
     }
   }
 }
