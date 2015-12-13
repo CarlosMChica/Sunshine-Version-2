@@ -38,6 +38,7 @@ dependencies {
   compile rootProject.ext.dependencies.javax
   compile rootProject.ext.dependencies.dexter
   compile rootProject.ext.dependencies.googlePlayServicesLocation
+  compile rootProject.ext.dependencies.stetho
 
   apt rootProject.ext.dependencies.threaddecoratedviewcompiler
 

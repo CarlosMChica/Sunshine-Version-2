@@ -17,7 +17,8 @@ allprojects {
                     threaddecoratedviewcompiler: "me.panavtec:threaddecoratedview-compiler:${threaddecoratedviewVersion}",
                     javax                      : "javax.annotation:jsr250-api:1.0",
                     dexter                     : "com.karumi:dexter:2.1.2",
-                    googlePlayServicesLocation : "com.google.android.gms:play-services-location:${googlePlayServicesVersion}",]
+                    googlePlayServicesLocation : "com.google.android.gms:play-services-location:${googlePlayServicesVersion}",
+                    stetho                     : "com.facebook.stetho:stetho:1.2.0" ]
 
     testDependencies = [mockito: "org.mockito:mockito-core:1.9.5",
                         junit  : "junit:junit:4.12"]
