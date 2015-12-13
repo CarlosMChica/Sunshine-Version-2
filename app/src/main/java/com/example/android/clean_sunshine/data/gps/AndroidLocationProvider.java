@@ -2,6 +2,8 @@ package com.example.android.clean_sunshine.data.gps;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import com.example.android.clean_sunshine.domain.model.Location;
 import com.example.android.clean_sunshine.domain.model.LocationProvider;
 import com.google.android.gms.common.ConnectionResult;
@@ -64,11 +66,15 @@ public class AndroidLocationProvider
   }
 
   private void initGoogleApiClient() {
+    Looper.prepare();
+    Handler handler = new Handler();
     googleApiClient = new Builder(context).addApi(API)
         .addConnectionCallbacks(this)
         .addOnConnectionFailedListener(this)
+        .setHandler(handler)
         .build();
-    googleApiClient.blockingConnect();
+    googleApiClient.connect();
+    Looper.loop();
   }
 
   private void getLastLocation() {

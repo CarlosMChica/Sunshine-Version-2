@@ -44,6 +44,7 @@ public class RefreshCurrentLocationForecastInteractor
       output.onCurrentLocationForecastRefreshed(networkData);
       localForecastGateway.update(networkData);
     } catch (Exception e) {
+      e.printStackTrace();
       output.onRefreshCurrentLocationForecastError();
     }
   }
