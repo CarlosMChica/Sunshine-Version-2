@@ -58,14 +58,14 @@ public class DetailPresenter
   }
 
   private void updateView(Forecast forecast) {
-    //view.showIcon(forecast.getId());
-    //view.showFriendDate(forecast.getDateTime());
-    //view.showDate(forecast.getDateTime());
-    //view.showDescription(forecast.getDescription());
-    //view.showHighTemp(forecast.getHigh());
-    //view.showLowTemp(forecast.getLow());
-    //view.showHumidity(forecast.getHumidity());
-    //view.showWind(((float) forecast.getWindDirection()), ((float) forecast.getWindSpeed()));
-    //view.showPressure(forecast.getPressure());
+    view.showIcon(forecast.getId());
+    view.showFriendDate(forecast.getDateTime());
+    view.showDate(forecast.getDateTime());
+    view.showDescription(forecast.getDescription());
+    view.showHighTemp(forecast.getHigh());
+    view.showLowTemp(forecast.getLow());
+    view.showHumidity(forecast.getHumidity());
+    view.showWind(((float) forecast.getWindDirection()), ((float) forecast.getWindSpeed()));
+    view.showPressure(forecast.getPressure());
   }
 }

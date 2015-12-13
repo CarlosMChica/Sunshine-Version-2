@@ -16,7 +16,7 @@ import me.panavtec.threaddecoratedview.views.qualifiers.ThreadDecoratedView;
 
   void showLowTemp(double low);
 
-  void showHumidity(int humidity);
+  void showHumidity(float humidity);
 
   void showWind(float windDirection, float windSpeed);
 

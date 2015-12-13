@@ -128,7 +128,7 @@ public class DetailFragment extends Fragment implements DetailView {
     mLowTempView.setText(Utility.formatTemperature(getActivity(), low));
   }
 
-  @Override public void showHumidity(int humidity) {
+  @Override public void showHumidity(float humidity) {
     mHumidityView.setText(getActivity().getString(R.string.format_humidity, humidity));
   }
 

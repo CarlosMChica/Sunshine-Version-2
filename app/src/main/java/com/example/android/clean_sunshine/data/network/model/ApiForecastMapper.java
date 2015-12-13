@@ -9,10 +9,12 @@ import java.util.List;
 public class ApiForecastMapper {
 
   public List<Forecast> mapFromApi(ApiForecast apiForecast, String locationQuery) {
-    List<ApiForecastItem> items = apiForecast.getItems();
-    List<Forecast> list = new ArrayList<>(items.size());
-    for (int i = 0; i < items.size(); i++) {
-      list.add(mapForecastItem(i, items.get(i), apiForecast.getCity(), locationQuery));
+    List<Forecast> list = new ArrayList<>();
+    if (apiForecast != null) {
+      List<ApiForecastItem> items = apiForecast.getItems();
+      for (int i = 0; i < items.size(); i++) {
+        list.add(mapForecastItem(i, items.get(i), apiForecast.getCity(), locationQuery));
+      }
     }
     return list;
   }

@@ -37,6 +37,7 @@ public class DbForecastMapper {
     locationValues.put(COLUMN_CITY_NAME, location.getCityName());
     locationValues.put(COLUMN_COORD_LAT, location.getLat());
     locationValues.put(COLUMN_COORD_LONG, location.getLon());
+    locationValues.put(COLUMN_LOCATION_SETTING, location.getLocationSetting());
     return locationValues;
   }
 

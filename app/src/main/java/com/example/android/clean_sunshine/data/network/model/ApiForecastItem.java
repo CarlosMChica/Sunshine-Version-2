@@ -6,7 +6,7 @@ import java.util.List;
 public class ApiForecastItem {
 
   private double pressure;
-  private int humidity;
+  private float humidity;
   @SerializedName("weather") private List<ApiWeather> weatherList;
   @SerializedName("temp") private ApiTemperature temperature;
   @SerializedName("speed") private double windSpeed;
@@ -16,7 +16,7 @@ public class ApiForecastItem {
     return pressure;
   }
 
-  public int getHumidity() {
+  public float getHumidity() {
     return humidity;
   }
 

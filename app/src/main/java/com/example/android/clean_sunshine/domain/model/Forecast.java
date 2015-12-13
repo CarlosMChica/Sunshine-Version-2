@@ -6,7 +6,7 @@ public class Forecast {
   private String description;
   private long dateTime;
   private double pressure;
-  private int humidity;
+  private float humidity;
   private double windSpeed;
   private double windDirection;
   private double high;
@@ -29,7 +29,7 @@ public class Forecast {
     return pressure;
   }
 
-  public int getHumidity() {
+  public float getHumidity() {
     return humidity;
   }
 
@@ -71,7 +71,7 @@ public class Forecast {
     private String description;
     private long dateTime;
     private double pressure;
-    private int humidity;
+    private float humidity;
     private double windSpeed;
     private double windDirection;
     private double high;
@@ -98,7 +98,7 @@ public class Forecast {
       return this;
     }
 
-    public Builder humidity(int humidity) {
+    public Builder humidity(float humidity) {
       this.humidity = humidity;
       return this;
     }
