@@ -18,7 +18,7 @@
 
   <!-- Menu label to fetch updated weather info from the server -->
   <string name="action_refresh"
-      translatable="false">Refresh</string>
+      translatable="false">Current location weather</string>
   <string name="title_activity_detail">Details</string>
   <string name="title_activity_settings">Settings</string>
 
@@ -98,7 +98,7 @@
 
   <!-- Strings related to Notification preference -->
   <string name="pref_last_notification">last_notification</string>
-  <string name="refresh_forecast_error">Error refreshing forecast</string>
+  <string name="refresh_forecast_error">Error retrieving current location forecast</string>
   <string name="load_forecast_error">Error loading forecast</string>
 
 </resources>

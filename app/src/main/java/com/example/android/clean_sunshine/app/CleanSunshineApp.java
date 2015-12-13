@@ -2,6 +2,7 @@ package com.example.android.clean_sunshine.app;
 
 import android.app.Application;
 import com.example.android.clean_sunshine.data.sync.SunshineSyncAdapter;
+import com.facebook.stetho.Stetho;
 import com.karumi.dexter.Dexter;
 
 public class CleanSunshineApp extends Application {
@@ -14,6 +15,7 @@ public class CleanSunshineApp extends Application {
   private void initializeApp() {
     initializeDexter();
     initializeSyncAdapter();
+    initializeStetho();
   }
 
   private void initializeDexter() {
@@ -22,5 +24,9 @@ public class CleanSunshineApp extends Application {
 
   private void initializeSyncAdapter() {
     SunshineSyncAdapter.initializeSyncAdapter(this);
+  }
+
+  private void initializeStetho() {
+    Stetho.initializeWithDefaults(this);
   }
 }
