@@ -1,0 +1,10 @@
+apply plugin: 'java'
+apply plugin: "net.ltgt.apt"
+
+dependencies {
+  compile project(':domain')
+
+  compile rootProject.ext.dependencies.threaddecoratedview
+
+  apt rootProject.ext.dependencies.threaddecoratedviewcompiler
+}

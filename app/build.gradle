@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 
 android {
   compileSdkVersion parent.ext.androidCompileSdkVersion
@@ -25,24 +24,20 @@ android {
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile project(':presentation')
+  compile project(':api')
+  compile project(':persistence')
+
   compile rootProject.ext.dependencies.androidSupportv7
   compile rootProject.ext.dependencies.recyclerView
   compile rootProject.ext.dependencies.recyclerAdapters
   compile rootProject.ext.dependencies.butterknife
-  compile rootProject.ext.dependencies.retrofit
-  compile rootProject.ext.dependencies.gsonConverter
-  compile rootProject.ext.dependencies.okHttp
-  compile rootProject.ext.dependencies.loggingInterceptor
-  compile rootProject.ext.dependencies.threaddecoratedview
+
   compile rootProject.ext.dependencies.javax
   compile rootProject.ext.dependencies.dexter
   compile rootProject.ext.dependencies.googlePlayServicesLocation
   compile rootProject.ext.dependencies.stetho
 
-  apt rootProject.ext.dependencies.threaddecoratedviewcompiler
-
   testCompile rootProject.ext.testDependencies.mockito
   testCompile rootProject.ext.testDependencies.junit
-
 }

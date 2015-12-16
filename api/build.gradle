@@ -1,0 +1,9 @@
+apply plugin: 'java'
+
+dependencies {
+    compile project(':domain')
+
+    compile rootProject.ext.dependencies.retrofit
+    compile rootProject.ext.dependencies.gsonConverter
+    compile rootProject.ext.dependencies.okHttp
+    compile rootProject.ext.dependencies.loggingInterceptor}

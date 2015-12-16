@@ -64,7 +64,7 @@
 
     <provider
         android:authorities="@string/application_id"
-        android:name="com.example.android.clean_sunshine.data.local.ForecastProvider"
+        android:name="com.example.android.clean_sunshine.persistence.ForecastProvider"
         android:exported="false"
         android:syncable="true"
         />
