@@ -7,7 +7,6 @@ import com.example.android.clean_sunshine.domain.interactor.RefreshManualLocatio
 import com.example.android.clean_sunshine.domain.model.Forecast;
 import com.example.android.clean_sunshine.presentation.forecast.ForecastPresenter;
 import com.example.android.clean_sunshine.presentation.forecast.ForecastView;
-import java.util.Collections;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,13 +16,13 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
+import static java.util.Collections.singletonList;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class) public class ForecastPresenterShould {
 
-  private static final List<Forecast> FORECAST_LIST =
-      Collections.singletonList(new Forecast.Builder().build());
+  private static final List<Forecast> FORECAST_LIST = singletonList(new Forecast.Builder().build());
   private static final String LOCATION = "location";
 
   private ForecastPresenter presenter;
@@ -41,14 +40,14 @@ import static org.mockito.Mockito.*;
     setUpViewInjector();
   }
 
-  @Test public void update_view_when_forecast_is_loaded() throws Exception {
+  @Test public void update_view_forecast_when_forecast_is_loaded() throws Exception {
     presenter.onForecastLoaded(FORECAST_LIST);
 
     verify(view).hideLoading();
     verify(view).updateForecast(FORECAST_LIST);
   }
 
-  @Test public void hide_loading_and_show_load_forecast_error_when_load_forecast_fails()
+  @Test public void hide_loading_and_show_forecast_error_when_load_forecast_fails()
       throws Exception {
     presenter.onLoadForecastError();
 
