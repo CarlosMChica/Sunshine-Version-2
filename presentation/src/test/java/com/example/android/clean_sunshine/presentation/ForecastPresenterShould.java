@@ -22,7 +22,8 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class) public class ForecastPresenterShould {
 
-  private static final List<Forecast> FORECAST_LIST = Collections.singletonList(new Forecast.Builder().build());
+  private static final List<Forecast> FORECAST_LIST =
+      Collections.singletonList(new Forecast.Builder().build());
   private static final String LOCATION = "location";
 
   private ForecastPresenter presenter;
@@ -43,39 +44,34 @@ import static org.mockito.Mockito.*;
   @Test public void update_view_when_forecast_is_loaded() throws Exception {
     presenter.onForecastLoaded(FORECAST_LIST);
 
-    Mockito.verify(view).hideLoading();
-    Mockito.verify(view).updateForecast(FORECAST_LIST);
+    verify(view).hideLoading();
+    verify(view).updateForecast(FORECAST_LIST);
   }
 
   @Test public void hide_loading_and_show_load_forecast_error_when_load_forecast_fails()
       throws Exception {
     presenter.onLoadForecastError();
 
-    Mockito.verify(view).hideLoading();
-    Mockito.verify(view).showLoadForecastError();
+    verify(view).hideLoading();
+    verify(view).showLoadForecastError();
   }
 
-  @Test public void inject_view_and_load_forecast_when_ui_is_ready() throws Exception {
+  @Test public void load_forecast_when_ui_is_ready() throws Exception {
     presenter.onUiReady();
 
-    Mockito.verify(viewInjector).inject(view);
-    verifyLoadForecast();
-  }
-
-  private void verifyLoadForecast() {
-    Mockito.verify(view).showLoading();
-    Mockito.verify(loadForecastInteractor).setOutput(presenter);
-    Mockito.verify(loadForecastInteractor).setLocation(LOCATION);
-    Mockito.verify(interactorExecutor).execute(loadForecastInteractor);
+    verify(view).showLoading();
+    verify(loadForecastInteractor).setOutput(presenter);
+    verify(loadForecastInteractor).setLocation(LOCATION);
+    verify(interactorExecutor).execute(loadForecastInteractor);
   }
 
   private void setUpInteractorExecutor() {
-    Mockito.doAnswer(new Answer() {
+    doAnswer(new Answer() {
       @Override public Object answer(InvocationOnMock invocation) throws Throwable {
         ((Interactor) invocation.getArguments()[0]).run();
         return null;
       }
-    }).when(interactorExecutor).execute(Matchers.any(Interactor.class));
+    }).when(interactorExecutor).execute(any(Interactor.class));
   }
 
   private void setUpPresenter() {
@@ -86,7 +82,7 @@ import static org.mockito.Mockito.*;
   }
 
   private void setUpViewInjector() {
-    Mockito.when(viewInjector.inject(view)).thenReturn(view);
-    Mockito.when(viewInjector.nullObjectPatternView(view)).thenReturn(view);
+    when(viewInjector.inject(view)).thenReturn(view);
+    when(viewInjector.nullObjectPatternView(view)).thenReturn(view);
   }
 }
